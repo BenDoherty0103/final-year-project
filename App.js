@@ -1,22 +1,38 @@
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import HomeScreen from './src/screens/HomeScreen';
-import RequestScreen from './src/screens/RequestScreen';
-import CommunityScreen from './src/screens/CommunityScreen';
-import HelpScreen from './src/screens/HelpScreen';
+import React from 'react'
+import { StyleSheet, Platform, Image, Text, View } from 'react-native'
+import { createStackNavigator, createAppContainer } from 'react-navigation'
+// import the different screens
+import LoadingScreen from './screens/LoadingScreen.js'
+import SignUpScreen from './screens/SignUpScreen'
+import LoginScreen from './screens/LoginScreen'
+import MainScreen from './screens/MainScreen'
+import YourRequestsScreen from './screens/YourRequestsScreen';
+import CommunityScreen from './screens/CommunityScreen';
+import HelpScreen from './screens/HelpScreen';
+import MakeNewRequestScreen from './screens/MakeNewRequestScreen';
+import ViewAllRequests from './screens/ViewAllRequests';
+// create our app's navigation stack
 
-const navigator = createStackNavigator(
+const App = createStackNavigator(
   {
-    Home: HomeScreen,
-    Request: RequestScreen,
+    Loading: LoadingScreen,
+    SignUp: SignUpScreen,
+    Login: LoginScreen,
+    Main: MainScreen,
+    YourRequests: YourRequestsScreen,
     Community: CommunityScreen,
-    Help: HelpScreen
+    Help: HelpScreen,
+    MakeNewRequest: MakeNewRequestScreen,
+    ViewAll: ViewAllRequests,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Loading',
     defaultNavigationOptions: {
       header:null
     }
   }
 );
 
-export default createAppContainer(navigator);
+const navigator = createAppContainer(App)
+
+export default navigator

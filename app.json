@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "exmulti",
-    "slug": "exmulti",
+    "name": "login",
+    "slug": "login",
     "privacy": "public",
-    "sdkVersion": "33.0.0",
+    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android",
