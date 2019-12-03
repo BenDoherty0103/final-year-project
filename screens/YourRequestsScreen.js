@@ -1,12 +1,15 @@
 import React from 'react'
 import { Text, StyleSheet, View } from 'react-native'
 
-const YourRequestScreen = () => {
-  return (
-    <View>
-      <Text style={styles.textStyle}>Your requests</Text>
-    </View>
-  )
+export default class YourRequests extends React.Component {
+  
+  render() {
+    return (
+      <View>
+        <Text style={styles.textStyle}>Your requests</Text>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -18,4 +21,3 @@ const styles = StyleSheet.create({
     }
 })
 
-export default YourRequestScreen

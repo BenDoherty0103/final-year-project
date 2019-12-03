@@ -3,9 +3,10 @@ import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
 import * as firebase from 'firebase'
 
 export default class Login extends React.Component {
-
+  //Setting initial state as blank, to be filled in from firebase authentication information
   state = { email: '', password: '', errorMessage: null }
 
+  //Method to assign user state and navigate from login screen to main screen
   handleLogin = () => {
     const { email, password } = this.state
     firebase
@@ -17,8 +18,8 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={{color:'#e93766', fontSize: 40}}>Login</Text>
+      <View style={styles.mainContainer}>
+        <Text style={{color:'black', fontSize: 40}}>Login</Text>
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>
             {this.state.errorMessage}
@@ -46,7 +47,7 @@ export default class Login extends React.Component {
   }
 }
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'

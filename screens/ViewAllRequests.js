@@ -1,12 +1,39 @@
 import React from 'react'
 import { Text, StyleSheet, View } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+import * as firebase from 'firebase'
+import { db } from './../configs/firebaseConfig'
 
-const ViewAllRequestScreen = () => {
-  return (
-    <View>
-      <Text style={styles.textStyle}>All requests</Text>
-    </View>
-  )
+
+export default class ViewAll extends React.Component {
+  state = { }
+  
+  componentDidMount() {
+    var newState = Object.assign({}, this.state)
+    db.ref().child('RequestsList/').on('value', (snap) => {
+        this.setState(snap.val())
+        console.log(this.state.itemName)
+      }
+    )
+  }
+  
+  renderRates = (request) => {
+  let rows = [];
+  Object.keys(request).forEach(key => {
+    rows.push(<Text>{key + ' ' + request[key]}</Text>)
+  });
+  return rows;
+} 
+
+  
+  render() {
+    return (
+      <View>
+        <Text style={styles.textStyle}>View Requests</Text>
+        {this.renderRates(this.state)}
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -17,5 +44,3 @@ const styles = StyleSheet.create({
         fontSize: 20
     }
 })
-
-export default ViewAllRequestScreen
