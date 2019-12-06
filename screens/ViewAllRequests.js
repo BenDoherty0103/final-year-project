@@ -9,7 +9,6 @@ export default class ViewAll extends React.Component {
   state = { }
   
   componentDidMount() {
-    var newState = Object.assign({}, this.state)
     db.ref().child('RequestsList/').on('value', (snap) => {
         this.setState(snap.val())
         console.log(this.state.itemName)
@@ -17,7 +16,7 @@ export default class ViewAll extends React.Component {
     )
   }
   
-  renderRates = (request) => {
+  renderRequests = (request) => {
   let rows = [];
   Object.keys(request).forEach(key => {
     rows.push(<Text>{key + ' ' + request[key]}</Text>)
@@ -30,7 +29,7 @@ export default class ViewAll extends React.Component {
     return (
       <View>
         <Text style={styles.textStyle}>View Requests</Text>
-        {this.renderRates(this.state)}
+        {this.renderRequests(this.state)}
       </View>
     )
   }
