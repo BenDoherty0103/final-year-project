@@ -19,7 +19,7 @@ export default class ViewAll extends React.Component {
   renderRequests = (request) => {
   let rows = [];
   Object.keys(request).forEach(key => {
-    rows.push(<Text>{key + ' ' + request[key]}</Text>)
+    rows.push(<Text style={styles.rowStyle}>Object ID: {key}</Text>)
   });
   return rows;
 } 
@@ -29,17 +29,25 @@ export default class ViewAll extends React.Component {
     return (
       <View>
         <Text style={styles.textStyle}>View Requests</Text>
-        {this.renderRequests(this.state)}
+        <View style={styles.tableStyle}>
+          {this.renderRequests(this.state)}
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-    textStyle: {
-        fontSize: 45
-    },
-    subheaderStyle: {
-        fontSize: 20
-    }
+  textStyle: {
+    paddingVertical: 20,
+    textAlign: 'center',
+    fontSize: 45
+  },
+  tableStyle: {
+    alignItems: 'center'
+  },
+  rowStyle: {
+    fontSize: 16,
+    paddingVertical: 2
+  }
 })

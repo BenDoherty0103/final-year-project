@@ -87,7 +87,8 @@ const styles = StyleSheet.create({
   mainHeading: {
     fontSize:20,
     backgroundColor: '#FFFFFF',
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: 1
   },
   mainContainer: {
     flexDirection: 'row',
