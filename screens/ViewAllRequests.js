@@ -3,27 +3,32 @@ import { Text, StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
+import RequestItem from './../components/RequestItem'
 
 
 export default class ViewAll extends React.Component {
-  state = { }
+  state = {
+    items: [],
+    itemIDs: []
+  }
   
   componentDidMount() {
-    db.ref().child('RequestsList/').on('value', (snap) => {
-        this.setState(snap.val())
-        console.log(this.state.itemName)
+    db.ref().child('RequestsList/').on('value', (snapshot) => {
+        let data = snapshot.val();
+        let items = Object.values(data);
+        this.setState({items});
+        console.log(this.state.items)
       }
     )
   }
   
   renderRequests = (request) => {
-  let rows = [];
-  Object.keys(request).forEach(key => {
-    rows.push(<Text style={styles.rowStyle}>Object ID: {key}</Text>)
+    let rows = [];
+    Object.keys(request).forEach(key => {
+      rows.push(<RequestItem items={this.state.items} />)
   });
   return rows;
 } 
-
   
   render() {
     return (
@@ -43,11 +48,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 45
   },
-  tableStyle: {
-    alignItems: 'center'
-  },
-  rowStyle: {
-    fontSize: 16,
-    paddingVertical: 2
+  container: {
+    justifyContent: 'center',
+    backgroundColor: '#B6A6BB',
   }
 })

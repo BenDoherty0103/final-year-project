@@ -6,7 +6,7 @@ import * as firebase from 'firebase'
 export default class SignUp extends React.Component {
 
   //Setting initial state as blank, to be filled in from signup information
-  state = { displayName: {firstname: '', lastname: ''}, email: '', password: '', errorMessage: null }
+  state = { displayName: {fullname: ''}, email: '', password: '', errorMessage: null }
 
   //Method to create and store user, then navigate from login screen to main screen
   handleSignUp = () => {
@@ -19,23 +19,18 @@ export default class SignUp extends React.Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-      <Text style={{color:'black', fontSize: 40}}>Sign Up</Text>
+        <Text style={{color:'black', fontSize: 30, textAlign: 'center'}}>Sign Up</Text>
+        <Text style={{color:'black', fontSize: 15, textAlign: 'center'}}>Please fill out all fields to create an account</Text>
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>
             {this.state.errorMessage}
           </Text>}
           <TextInput
-          placeholder="First Name"
+          placeholder="Full Name"
           autoCapitalize="none"
           style={styles.textInput}
-          onChangeText={firstname => this.setState({ firstname })}
-          value={this.state.firstname} />
-          <TextInput
-          placeholder="Last Name"
-          autoCapitalize="none"
-          style={styles.textInput}
-          onChangeText={lastname => this.setState({ lastname })}
-          value={this.state.lastname} />
+          onChangeText={firstname => this.setState({ fullname })}
+          value={this.state.fullname} />
         <TextInput
           placeholder="Email"
           autoCapitalize="none"
@@ -49,7 +44,7 @@ export default class SignUp extends React.Component {
           style={styles.textInput}
           onChangeText={password => this.setState({ password })}
           value={this.state.password} />
-        <Button title="Sign Up" color="#e93766" onPress={this.handleSignUp}/>
+        <Button title="Sign Up" style={styles.button} color="#e93766" onPress={this.handleSignUp}/>
         <View>
         <Text> Already have an account? <Text onPress={() => this.props.navigation.navigate('Login')} style={{color:'#e93766', fontSize: 18}}> Login </Text></Text>
         </View>
@@ -64,10 +59,13 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   textInput: {
+    padding: 10,
     height: 40,
     width: '90%',
-    borderColor: 'gray',
+    borderColor: 'white',
     borderWidth: 1,
-    marginTop: 8
+    marginTop: 8,
+    textAlign: 'center',
+    fontSize: 16
   }
 })
