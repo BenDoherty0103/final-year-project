@@ -22,14 +22,11 @@ export default class MakeNewRequest extends React.Component {
   
   handleItems = () => {   
         const { itemName, itemDescription, itemLocation, requestedAt } = this.state
-        db.ref('RequestsList/').push({
+        db.collection('RequestsList').add({
         itemName,
         itemDescription,
         itemLocation,
         requestedAt
-    }).then((data)=>{
-        //success callback
-        console.log('data ' , data)
     }).catch((error)=>{
         //error callback
         console.log('error ' , error)

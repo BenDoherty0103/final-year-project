@@ -5,7 +5,7 @@ export default StyleSheet.create({
     fontSize:20,
     backgroundColor: '#FFFFFF',
     textAlign: 'center',
-    padding: 1
+    padding: 10
   },
   mainContainer: {
     flexDirection: 'row',
@@ -14,7 +14,7 @@ export default StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
-    paddingVertical: 30
+    paddingVertical: 15
   },
   innerContainer: {
     padding: 8,
