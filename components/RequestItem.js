@@ -14,11 +14,9 @@ export default class RequestItem extends Component {
       <View style={styles.itemsList}>
         {this.props.items.map((item, index) => {
             return (
-                <View key={index}>
+                <View style={styles.listItem} key={index}>
                     <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
-                    <Text style={styles.itemtext}>Item Description: {item.itemDescription}</Text>
                     <Text style={styles.itemtext}>Item Location: {item.itemLocation}</Text>
-                    <Text style={styles.itemtext}>Requested At: {item.requestedAt}</Text>
                 </View>
             )
         })}
@@ -29,10 +27,11 @@ export default class RequestItem extends Component {
 
 const styles = StyleSheet.create({
     itemsList: {
-      paddingVertical: 20,
-      flex: 1,
       flexDirection: 'column',
       justifyContent: 'space-around',
+    },
+    listItem: {
+      paddingVertical: 5
     },
     itemtext: {
       fontSize: 16,

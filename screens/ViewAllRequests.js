@@ -17,26 +17,14 @@ export default class ViewAll extends React.Component {
         let data = snapshot.val();
         let items = Object.values(data);
         this.setState({items});
-        console.log(this.state.items)
       }
     )
   }
-  
-  renderRequests = (request) => {
-    let rows = [];
-    Object.keys(request).forEach(key => {
-      rows.push(<RequestItem items={this.state.items} />)
-  });
-  return rows;
-} 
-  
   render() {
     return (
       <View>
         <Text style={styles.textStyle}>View Requests</Text>
-        <View style={styles.tableStyle}>
-          {this.renderRequests(this.state)}
-        </View>
+          <RequestItem items={this.state.items}/>
       </View>
     )
   }
@@ -44,7 +32,7 @@ export default class ViewAll extends React.Component {
 
 const styles = StyleSheet.create({
   textStyle: {
-    paddingVertical: 20,
+    paddingVertical: 15,
     textAlign: 'center',
     fontSize: 45
   },
