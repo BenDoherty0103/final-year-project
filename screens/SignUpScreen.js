@@ -1,15 +1,25 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
 import * as firebase from 'firebase'
+import { db } from './../configs/firebaseConfig'
 
 
 export default class SignUp extends React.Component {
 
   //Setting initial state as blank, to be filled in from signup information
-  state = { fullname: '', email: '', password: '', errorMessage: null }
+  state = { fullName: '', email: '', password: '', errorMessage: null }
 
   //Method to create and store user, then navigate from login screen to main screen
   handleSignUp = () => {
+    const { fullName, email, password } = this.state
+    db.collection('Users').add({
+      fullName,
+      email,
+      password
+    }).catch((error)=>{
+        //error callback
+        console.log('error ' , error)
+    })
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -29,8 +39,8 @@ export default class SignUp extends React.Component {
           placeholder="Full Name"
           autoCapitalize="none"
           style={styles.textInput}
-          onChangeText={fullname => this.setState({ fullname })}
-          value={this.state.fullname} />
+          onChangeText={fullName => this.setState({ fullName })}
+          value={this.state.fullName} />
         <TextInput
           placeholder="Email"
           autoCapitalize="none"
