@@ -6,7 +6,7 @@ import * as firebase from 'firebase'
 export default class SignUp extends React.Component {
 
   //Setting initial state as blank, to be filled in from signup information
-  state = { displayName: {fullname: ''}, email: '', password: '', errorMessage: null }
+  state = { fullname: '', email: '', password: '', errorMessage: null }
 
   //Method to create and store user, then navigate from login screen to main screen
   handleSignUp = () => {
@@ -29,7 +29,7 @@ export default class SignUp extends React.Component {
           placeholder="Full Name"
           autoCapitalize="none"
           style={styles.textInput}
-          onChangeText={firstname => this.setState({ fullname })}
+          onChangeText={fullname => this.setState({ fullname })}
           value={this.state.fullname} />
         <TextInput
           placeholder="Email"
