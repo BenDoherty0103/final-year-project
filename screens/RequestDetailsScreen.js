@@ -1,39 +1,40 @@
 import React from 'react'
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native'
+import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
 
 
-export default class ViewAll extends React.Component {
+export default class RequestDetails extends React.Component {
   
   state = {
     items: []
   }
-
   
-
-  
- componentDidMount() {
-    db.collection("RequestsList").get().then((querySnapshot) => {
-      querySnapshot.docs.forEach(doc => {
-          const items = querySnapshot.docs.map(doc => doc.data());
-          this.setState({items})
-        });
+  componentDidMount(props) {
+    db.collection("RequestsList").get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const items = querySnapshot.docs.map(doc => doc.data());
+        this.setState({items})
+      })
     });
- }
+  }
   
-  render() {
+  render(props) {
     return (
       <View>
-        <Text style={styles.textStyle}>View Requests</Text>
+        <Text style={styles.textStyle}>Request Details</Text>
         <View style={styles.itemsList}>
           {this.state.items.map((item) => {
+            if(item.id == this.props.navigation.state.params) {
             return (
                 <View style={styles.listItem}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
-                  <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
-                </TouchableOpacity>
+                <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
+                <Text style={styles.itemtext}>Item Description: {item.itemDescription}</Text>
+                <Text style={styles.itemtext}>Item Location: {item.itemLocation}</Text>
+                <Text style={styles.itemtext}>Requested At: {item.requestedAt}</Text>
                 </View>
             )
+            }
           })}
         </View>
       </View>

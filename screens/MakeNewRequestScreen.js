@@ -1,11 +1,18 @@
 import React from 'react'
-import { Text, StyleSheet, View, TextInput, Button } from 'react-native'
-import * as firebase from 'firebase'
+import {
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  Button,
+  Picker,
+} from 'react-native'
 import { db } from './../configs/firebaseConfig'
+import uuid from 'react-native-uuid'
 
 export default class MakeNewRequest extends React.Component {
   
-  state = { itemName: '', itemDescription: '', itemLocation: '', requestedBy: '', requestedAt: ''}
+  state = { itemName: '', itemDescription: '', itemLocation: '', requestedBy: '', requestedAt: '', category: '', id: '', isOpen: true}
   
   componentDidMount() {
     var date = new Date().getDate(); //Current Date
@@ -20,13 +27,16 @@ export default class MakeNewRequest extends React.Component {
     });
   }
   
-  handleItems = () => {   
-        const { itemName, itemDescription, itemLocation, requestedAt } = this.state
-        db.collection('RequestsList').add({
-        itemName,
-        itemDescription,
-        itemLocation,
-        requestedAt
+  handleItems = () => {
+    const id = uuid.v1().toString()
+    const { itemName, itemDescription, itemLocation, requestedAt, isOpen } = this.state
+    db.collection('RequestsList').add({
+      itemName,
+      itemDescription,
+      itemLocation,
+      requestedAt,
+      id,
+      isOpen
     }).catch((error)=>{
         //error callback
         console.log('error ' , error)
@@ -54,6 +64,18 @@ export default class MakeNewRequest extends React.Component {
           placeholder="Item Location"
           onChangeText={itemLocation => this.setState({ itemLocation })}
           value={this.state.itemLocation}/>
+        <Picker 
+          style={{
+            width: 100,
+          }}
+          selectedValue={(this.state && this.state.pickerValue) || 'Commodity'}
+          onValueChange={(value) => {
+            this.setState({value})
+          }}>
+          <Picker.Item label={'Commodity'} value={'Commodity'} />
+          <Picker.Item label={'Experience'} value={'Experience'} />
+          <Picker.Item label={'Rideshare'} value={'Rideshare'} />
+        </Picker>
         <Button title="Submit" onPress={this.handleItems}/>
       </View>
     )
