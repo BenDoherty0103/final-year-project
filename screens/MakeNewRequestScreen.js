@@ -8,6 +8,7 @@ import {
   Picker,
 } from 'react-native'
 import { db } from './../configs/firebaseConfig'
+import * as firebase from 'firebase'
 import uuid from 'react-native-uuid'
 
 export default class MakeNewRequest extends React.Component {
@@ -15,6 +16,12 @@ export default class MakeNewRequest extends React.Component {
   state = { itemName: '', itemDescription: '', itemLocation: '', requestedBy: '', requestedAt: '', category: '', id: '', isOpen: true}
   
   componentDidMount() {
+    db.collection("Users").get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const items = querySnapshot.docs.map(doc => doc.data());
+        this.setState({users})
+      })
+    });
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
@@ -29,6 +36,7 @@ export default class MakeNewRequest extends React.Component {
   
   handleItems = () => {
     const id = uuid.v1().toString()
+    const requestingUser = firebase.auth().currentUser.email
     const { itemName, itemDescription, itemLocation, requestedAt, isOpen } = this.state
     db.collection('RequestsList').add({
       itemName,
@@ -36,7 +44,8 @@ export default class MakeNewRequest extends React.Component {
       itemLocation,
       requestedAt,
       id,
-      isOpen
+      isOpen,
+      requestingUser
     }).catch((error)=>{
         //error callback
         console.log('error ' , error)
