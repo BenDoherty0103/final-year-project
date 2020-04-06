@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native'
+import { Text, StyleSheet, View, Button } from 'react-native'
 import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
 
@@ -7,10 +7,11 @@ import { db } from './../configs/firebaseConfig'
 export default class RequestDetails extends React.Component {
   
   state = {
-    items: []
+    items: [],
+    respondingUser: ''
   }
   
-  componentDidMount(props) {
+  componentDidMount() {
     db.collection("RequestsList").get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
         const items = querySnapshot.docs.map(doc => doc.data());
@@ -26,14 +27,18 @@ export default class RequestDetails extends React.Component {
         <View style={styles.itemsList}>
           {this.state.items.map((item) => {
             if(item.id == this.props.navigation.state.params) {
+              const itemID = item.id
+              const itemName = item.itemName
+              const requestingUser = item.requestingUser
             return (
                 <View style={styles.listItem}>
                 <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
                 <Text style={styles.itemtext}>Item Description: {item.itemDescription}</Text>
                 <Text style={styles.itemtext}>Item Location: {item.itemLocation}</Text>
                 <Text style={styles.itemtext}>Requested At: {item.requestedAt}</Text>
+                <Button title="Chat" onPress={() => this.props.navigation.navigate('Chat', [itemID, itemName, requestingUser])} />
                 </View>
-            )
+              )
             }
           })}
         </View>

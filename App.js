@@ -12,6 +12,7 @@ import HelpScreen from './screens/HelpScreen';
 import MakeNewRequestScreen from './screens/MakeNewRequestScreen';
 import ViewAllRequests from './screens/ViewAllRequests';
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
+import ChatScreen from './screens/LiveChatScreen'
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
 
@@ -34,7 +35,8 @@ const App = createStackNavigator(
     Help: HelpScreen,
     MakeNewRequest: MakeNewRequestScreen,
     ViewAll: ViewAllRequests,
-    RequestDetails: RequestDetailsScreen
+    RequestDetails: RequestDetailsScreen,
+    Chat: ChatScreen
   },
   {
     initialRouteName: 'Loading',
