@@ -35,14 +35,14 @@ export default class YourProfile extends React.Component {
             onPress={() => this.props.navigation.navigate('YourRequests')} >
             <MenuItem
               title='View your requests'
-              image={require('./../assets/images/add.jpg')} />
+              image={require('./../assets/images/list.jpg')} />
           </TouchableOpacity>
           <TouchableOpacity 
             style={Styles.innerContainer}
             onPress={() => this.props.navigation.navigate('YourResponses')} >
             <MenuItem
               title='View your responses'
-              image={require('./../assets/images/list.jpg')} />
+              image={require('./../assets/images/community.jpg')} />
           </TouchableOpacity>
         </View>
       </View>

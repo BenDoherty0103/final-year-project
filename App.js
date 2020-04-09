@@ -16,7 +16,7 @@ import YourResponsesScreen from './screens/YourResponsesScreen'
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
 
-YellowBox.ignoreWarnings(['Setting a timer']);
+YellowBox.ignoreWarnings(['Setting a timer', 'crypto not usable', 'Each child in a list']);
 const _console = _.clone(console);
 console.warn = message => {
   if (message.indexOf('Setting a timer') <= -1) {

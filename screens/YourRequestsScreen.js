@@ -34,7 +34,6 @@ export default class ViewAll extends React.Component {
                   <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
                    <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
                   </TouchableOpacity>
-
                 </View>
               )
             }
