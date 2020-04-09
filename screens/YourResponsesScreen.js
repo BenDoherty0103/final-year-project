@@ -4,7 +4,7 @@ import { db } from './../configs/firebaseConfig'
 import * as firebase from 'firebase'
 
 
-export default class ViewAll extends React.Component {
+export default class YourResponses extends React.Component {
   
   state = {
     items: []
@@ -34,6 +34,7 @@ export default class ViewAll extends React.Component {
                   <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
                    <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
                   </TouchableOpacity>
+
                 </View>
               )
             }

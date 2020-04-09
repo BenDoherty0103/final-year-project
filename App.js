@@ -1,5 +1,3 @@
-import React from 'react'
-import { StyleSheet, Platform, Image, Text, View } from 'react-native'
 import { createStackNavigator, createAppContainer } from 'react-navigation'
 // import the different screens
 import LoadingScreen from './screens/LoadingScreen'
@@ -13,10 +11,13 @@ import MakeNewRequestScreen from './screens/MakeNewRequestScreen';
 import ViewAllRequests from './screens/ViewAllRequests';
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
 import ChatScreen from './screens/LiveChatScreen'
+import YourProfileScreen from './screens/YourProfileScreen'
+import YourDetailsScreen from './screens/YourDetailsScreen'
+import YourResponsesScreen from './screens/YourResponsesScreen'
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
 
-YellowBox.ignoreWarnings(['Setting a timer']);
+YellowBox.ignoreWarnings(['Setting a timer', 'crypto not usable', 'Each child in a list']);
 const _console = _.clone(console);
 console.warn = message => {
   if (message.indexOf('Setting a timer') <= -1) {
@@ -36,7 +37,10 @@ const App = createStackNavigator(
     MakeNewRequest: MakeNewRequestScreen,
     ViewAll: ViewAllRequests,
     RequestDetails: RequestDetailsScreen,
-    Chat: ChatScreen
+    Chat: ChatScreen,
+    YourProfile: YourProfileScreen,
+    YourDetails: YourDetailsScreen,
+    YourResponses: YourResponsesScreen
   },
   {
     initialRouteName: 'Loading',
