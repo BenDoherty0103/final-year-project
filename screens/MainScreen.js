@@ -50,9 +50,9 @@ render() {
         <View style={Styles.rowContainer}>
           <TouchableOpacity 
             style={Styles.innerContainer}
-            onPress={() => this.props.navigation.navigate('YourRequests')} >
+            onPress={() => this.props.navigation.navigate('YourProfile')} >
             <MenuItem
-              title='View your requests'
+              title='View your profile'
               image={require('./../assets/images/person.jpg')} />
           </TouchableOpacity>
           <TouchableOpacity 
