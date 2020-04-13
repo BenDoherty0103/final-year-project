@@ -1,27 +1,24 @@
 import React from 'react'
 import {
   Text,
-  StyleSheet,
   View,
   TextInput,
   Button,
   Picker,
 } from 'react-native'
+import Styles from '../assets/Styles'
 import { db } from './../configs/firebaseConfig'
 import * as firebase from 'firebase'
 import uuid from 'react-native-uuid'
 
 export default class MakeNewRequest extends React.Component {
-  
-  state = { itemName: '', itemDescription: '', itemLocation: '', requestedBy: '', requestedAt: '', category: '', id: '', isOpen: true}
-  
+
+  state = { itemName: '', itemDescription: '', itemLocation: '', requestedBy: '', requestedAt: '', category: '', id: '', isOpen: true }
+
   componentDidMount() {
-    db.collection("Users").get().then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        const items = querySnapshot.docs.map(doc => doc.data());
-        this.setState({users})
-      })
-    });
+  }
+
+  handleItems = () => {
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
@@ -32,9 +29,6 @@ export default class MakeNewRequest extends React.Component {
       requestedAt:
         date + '/' + month + '/' + year + ' ' + hours + ':' + min,
     });
-  }
-  
-  handleItems = () => {
     const id = uuid.v1().toString()
     const requestingUser = firebase.auth().currentUser.email
     const { itemName, itemDescription, itemLocation, requestedAt, isOpen } = this.state
@@ -46,76 +40,46 @@ export default class MakeNewRequest extends React.Component {
       id,
       isOpen,
       requestingUser
-    }).catch((error)=>{
-        //error callback
-        console.log('error ' , error)
+    }).catch((error) => {
+      //error callback
+      console.log('error ', error)
     })
-        this.props.navigation.replace('Main')
+    this.props.navigation.replace('Main')
   }
-  
+
   render() {
     return (
-      <View style={styles.MainContainer}>
-        <Text style={styles.MainHeading}>Make a new request</Text>
-        <Text style={styles.SubHeading}>Please fill out the fields below.</Text>
+      <View style={Styles.requestContainer}>
+        <Text style={Styles.mainHeading}>Make a new request</Text>
+        <Text style={Styles.subHeading}>Please fill out the fields below.</Text>
         <TextInput
-          style={styles.Text}
+          style={Styles.textInput}
           placeholder="Item Name"
           onChangeText={itemName => this.setState({ itemName })}
           value={this.state.itemName} />
         <TextInput
-          style={styles.Text}
+          style={Styles.textInput}
           placeholder="Item Description"
           onChangeText={itemDescription => this.setState({ itemDescription })}
-          value={this.state.itemDescription}/>
+          value={this.state.itemDescription} />
         <TextInput
-          style={styles.Text}
+          style={Styles.textInput}
           placeholder="Item Location"
           onChangeText={itemLocation => this.setState({ itemLocation })}
-          value={this.state.itemLocation}/>
-        <Picker 
-          style={{
-            width: 100,
-          }}
+          value={this.state.itemLocation} />
+        <Picker
+          style={Styles.pick}
           selectedValue={(this.state && this.state.pickerValue) || 'Commodity'}
           onValueChange={(value) => {
-            this.setState({value})
+            this.setState({ value })
           }}>
           <Picker.Item label={'Commodity'} value={'Commodity'} />
           <Picker.Item label={'Experience'} value={'Experience'} />
           <Picker.Item label={'Rideshare'} value={'Rideshare'} />
         </Picker>
-        <Button title="Submit" onPress={this.handleItems}/>
+        <Button title="Submit" onPress={this.handleItems} />
       </View>
+
     )
   }
 }
-
-const styles = StyleSheet.create({
-  MainHeading: {
-    fontSize:30,
-    backgroundColor: '#FFFFFF',
-    textAlign: 'center'
-  },
-  SubHeading: {
-    fontSize:20,
-    backgroundColor: '#FFFFFF',
-    textAlign: 'center'
-  },
-  MainContainer: {
-    paddingVertical: 30,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  Text: {
-    padding: 10,
-    height: 40,
-    width: '90%',
-    borderColor: 'white',
-    borderWidth: 1,
-    marginTop: 8,
-    textAlign: 'center',
-    fontSize: 16
-  }
-})

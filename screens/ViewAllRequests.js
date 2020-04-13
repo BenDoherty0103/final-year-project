@@ -1,38 +1,36 @@
 import React from 'react'
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native'
+import { TouchableOpacity, Text, View } from 'react-native'
 import { db } from './../configs/firebaseConfig'
-
+import Styles from '../assets/Styles'
 
 export default class ViewAll extends React.Component {
-  
+
   state = {
     items: []
   }
 
-  
-
-  
- componentDidMount() {
+  componentDidMount() {
     db.collection("RequestsList").get().then((querySnapshot) => {
       querySnapshot.docs.forEach(doc => {
-          const items = querySnapshot.docs.map(doc => doc.data());
-          this.setState({items})
-        });
+        const items = querySnapshot.docs.map(doc => doc.data());
+        this.setState({ items })
+      });
     });
- }
-  
+  }
+
   render() {
     return (
-      <View>
-        <Text style={styles.textStyle}>View Requests</Text>
-        <View style={styles.itemsList}>
+      <View style={Styles.requestContainer}>
+        <Text style={Styles.mainHeading}>View Requests</Text>
+        <View style={Styles.itemsList}>
           {this.state.items.map((item) => {
             return (
-                <View style={styles.listItem}>
+              <View style={Styles.listItem}>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
-                  <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
+                  <Text style={Styles.itemInfo}>Item Name: {item.itemName}</Text>
+                  <Text style={Styles.itemInfo}>Item Location: {item.itemLocation}</Text>
                 </TouchableOpacity>
-                </View>
+              </View>
             )
           })}
         </View>
@@ -40,27 +38,3 @@ export default class ViewAll extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  textStyle: {
-    paddingVertical: 15,
-    textAlign: 'center',
-    fontSize: 45
-  },
-  container: {
-    justifyContent: 'center',
-    backgroundColor: '#B6A6BB',
-  },
-  itemsList: {
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-  },
-  listItem: {
-    paddingVertical: 5
-  },
-  itemtext: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  }
-})
