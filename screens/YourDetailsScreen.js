@@ -31,18 +31,39 @@ export default class YourDetails extends React.Component {
     });
   }
 
-  handleOnPress = () => {
-    const currentID = this.state.currentUserID
+  handleOnPress = (props) => {
+    users = []
+    ids = []
+    match = []
     const FullName = this.state.fullName
-    if(FullName != ''){
-      db.collection("Users").doc(currentID).update({
-        fullName: FullName
-      }) 
-    this.props.navigation.replace('Main')
-    }
-    else{
-      Alert.alert('Error', 'Please enter a value!')
-    }
+    db.collection("Users").get().then((querySnapshot) => {
+        querySnapshot.forEach(doc => {
+            users.push(doc.data())
+            ids.push(doc.id)
+        })
+        this.setState({ users })
+        this.state.users.map((user, i) => {
+            if (user.email == firebase.auth().currentUser.email) {
+                match.push(user, i)
+            }
+        })
+        var i = 0;
+        for (var id in ids) {
+            i++
+            if(i == match[1]) {
+                const matchID = ids[i]
+                this.setState({matchID})
+            }
+        }
+        if(FullName != ''){
+            db.collection("Users").doc(String(this.state.matchID)).update({
+              fullName: FullName
+            }) 
+        }
+        else{
+          Alert.alert('Error', 'Please enter a value!')
+        }
+    })
   }
 
   render() {
@@ -56,7 +77,7 @@ export default class YourDetails extends React.Component {
                 <View style={styles.listItem}>
                   <TextInput
                     style={styles.textInput}
-                    placeholder='Please enter a value'
+                    placeholder={user.fullName}
                     onChangeText={fullName => this.setState({ fullName })}
                     value={this.state.fullName} />
                   <Button title='Submit Changes' onPress={this.handleOnPress}></Button>

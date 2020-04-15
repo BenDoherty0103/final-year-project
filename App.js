@@ -15,6 +15,7 @@ import YourDetailsScreen from './screens/YourDetailsScreen'
 import YourResponsesScreen from './screens/YourResponsesScreen'
 import ResponseScreen from './screens/ResponseScreen'
 import EditScreen from './screens/EditRequestScreen'
+import RequestResponsesScreen from './screens/RequestResponsesScreen'
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
 
@@ -42,7 +43,8 @@ const App = createStackNavigator(
     YourDetails: YourDetailsScreen,
     YourResponses: YourResponsesScreen,
     Response: ResponseScreen,
-    Edit: EditScreen
+    Edit: EditScreen,
+    Responses: RequestResponsesScreen
   },
   {
     initialRouteName: 'Loading',

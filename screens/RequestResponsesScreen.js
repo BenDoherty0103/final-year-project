@@ -1,10 +1,10 @@
 import React from 'react'
-import { Text, StyleSheet, View, Button } from 'react-native'
+import { Text, StyleSheet, View, Button, TouchableOpacity } from 'react-native'
 import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
 
 
-export default class RequestDetails extends React.Component {
+export default class RequestResponsesScreen extends React.Component {
 
   state = {
     items: []
@@ -23,7 +23,7 @@ export default class RequestDetails extends React.Component {
     const respondingUser = firebase.auth().currentUser.email
     return (
       <View>
-        <Text style={styles.textStyle}>Request Details</Text>
+        <Text style={styles.textStyle}>Request Responses</Text>
         <View style={styles.itemsList}>
           {this.state.items.map((item) => {
             if (item.id == this.props.navigation.state.params) {
@@ -37,6 +37,9 @@ export default class RequestDetails extends React.Component {
                     <Text style={styles.itemtext}>Requested At: {item.requestedAt}</Text>
                   </View>
                   {item.requestingUser == firebase.auth().currentUser.email &&
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('Responses', [id])}>
+                    <Text style={styles.itemtext}>View responses</Text>
+                  </TouchableOpacity>
                     <Button 
                     title='Edit' 
                     onPress={() => this.props.navigation.navigate('Edit', [id, item.requestingUser, respondingUser])} />

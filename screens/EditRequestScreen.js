@@ -16,40 +16,50 @@ export default class EditRequest extends React.Component {
 
     componentDidMount() {
         db.collection("RequestsList").get().then((querySnapshot) => {
-            querySnapshot.docs.forEach(doc => {
+            querySnapshot.forEach(doc => {
                 const items = querySnapshot.docs.map(doc => doc.data());
-                items.map((item) => {
-                    if (item.id == this.props.navigation.state.params[0]) {
-                        currentItemID = doc.id
-                        console.log(item.itemName)
-                        this.setState({ currentItemID })
-                    }
-                    else {
-                        console.log('No data')
-                    }
-                })
                 this.setState({ items })
-                console.log(this.state.currentItemID)
-            });
+            })
         });
     }
 
-    handleOnPress = () => {
-        const currentID = this.state.currentItemID
+    handleOnPress = (props) => {
+        items = []
+        ids = []
+        match = []
         const ItemName = this.state.itemName
         const ItemLocation = this.state.itemLocation
         const ItemDescription = this.state.itemDescription
-        if (FullName != '') {
-            db.collection("RequestsList").doc(currentID).update({
-                itemName: ItemName,
-                itemLocation: ItemLocation,
-                itemDescription: ItemDescription
+        db.collection("RequestsList").get().then((querySnapshot) => {
+            querySnapshot.forEach(doc => {
+                items.push(doc.data())
+                ids.push(doc.id)
             })
-            this.props.navigation.replace('Main')
-        }
-        else {
-            Alert.alert('Error', 'Please enter a value!')
-        }
+            this.setState({ items })
+            this.state.items.map((item, i) => {
+                if (item.id == this.props.navigation.state.params[0]) {
+                    match.push(item, i)
+                }
+            })
+            var i = 0;
+            for (var id in ids) {
+                i++
+                if(i == match[1]) {
+                    const matchID = ids[i]
+                    this.setState({matchID})
+                }
+            }
+            if(ItemName != '' && ItemLocation != '' && ItemDescription != ''){
+                db.collection("RequestsList").doc(String(this.state.matchID)).update({
+                  itemName: ItemName,
+                  itemLocation: ItemLocation,
+                  itemDescription: ItemDescription
+                }) 
+            }
+            else{
+              Alert.alert('Error', 'Please enter a value!')
+            }
+        })
     }
 
     render() {
@@ -63,17 +73,17 @@ export default class EditRequest extends React.Component {
                                 <View style={styles.listItem}>
                                     <TextInput
                                         style={styles.textInput}
-                                        placeholder={this.state.itemName}
+                                        placeholder={item.itemName}
                                         onChangeText={itemName => this.setState({ itemName })}
                                         value={this.state.itemName} />
                                     <TextInput
                                         style={styles.textInput}
-                                        placeholder={this.state.itemLocation}
+                                        placeholder={item.itemLocation}
                                         onChangeText={itemLocation => this.setState({ itemLocation })}
                                         value={this.state.itemLocation} />
                                     <TextInput
                                         style={styles.textInput}
-                                        placeholder={this.state.itemDescription}
+                                        placeholder={item.itemDescription}
                                         onChangeText={itemDescription => this.setState({ itemDescription })}
                                         value={this.state.itemDescription} />
                                     <Button title='Submit Changes' onPress={this.handleOnPress}></Button>

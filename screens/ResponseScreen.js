@@ -3,15 +3,27 @@ import { Text, StyleSheet, View, Button } from 'react-native'
 import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
 import { TextInput } from 'react-native-gesture-handler'
+import uuid from 'react-native-uuid'
 
 
 export default class Response extends React.Component {
 
     state = {
-        items: []
+        items: [],
+        response: ''
     }
 
     componentDidMount(props) {
+        var date = new Date().getDate(); //Current Date
+        var month = new Date().getMonth() + 1; //Current Month
+        var year = new Date().getFullYear(); //Current Year
+        var hours = new Date().getHours(); //Current Hours
+        var min = new Date().getMinutes(); //Current Minutes
+        this.setState({
+            //Setting the value of the date time
+            respondedAt:
+                date + '/' + month + '/' + year + ' ' + hours + ':' + min,
+        });
         db.collection("RequestsList").get().then(querySnapshot => {
             querySnapshot.forEach(doc => {
                 const items = querySnapshot.docs.map(doc => doc.data());
@@ -20,8 +32,48 @@ export default class Response extends React.Component {
         });
     }
 
-    handleOnPress = () => {
-
+    handleOnPress = (props) => {
+        const ResponseID = uuid.v1().toString()
+        items = []
+        ids = []
+        match = []
+        const RequestResponse = this.state.response
+        db.collection("RequestsList").get().then((querySnapshot) => {
+            querySnapshot.forEach(doc => {
+                items.push(doc.data())
+                ids.push(doc.id)
+            })
+            this.setState({ items })
+            this.state.items.map((item, i) => {
+                if (item.id == this.props.navigation.state.params[0]) {
+                    match.push(item, i)
+                }
+            })
+            var i = 0;
+            for (var id in ids) {
+                i++
+                if (i == match[1]) {
+                    const matchID = ids[i]
+                    this.setState({ matchID })
+                }
+            }
+            if (RequestResponse != '') {
+                db.collection("RequestsList").doc(String(this.state.matchID)).update({
+                    response: firebase.firestore.FieldValue.arrayUnion(
+                        {
+                            responseID: ResponseID,
+                            respondingUser: firebase.auth().currentUser.email,
+                            responsebody: RequestResponse,
+                            respondedAt: this.state.respondedAt
+                        }
+                    )
+                })
+                this.props.navigation.replace('Main')
+            }
+            else {
+                Alert.alert('Error', 'Please enter a value!')
+            }
+        })
     }
 
     render(props) {
@@ -45,6 +97,8 @@ export default class Response extends React.Component {
                                             placeholderTextColor="grey"
                                             numberOfLines={10}
                                             multiline={true}
+                                            onChangeText={response => this.setState({ response })}
+                                            value={this.state.response}
                                         />
                                     </View>
                                 </View>
