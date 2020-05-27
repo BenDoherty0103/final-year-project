@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, StyleSheet, View, Button } from 'react-native'
+import { TouchableOpacity, Text, StyleSheet, View, Button } from 'react-native'
 import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
 
@@ -37,14 +37,19 @@ export default class RequestDetails extends React.Component {
                     <Text style={styles.itemtext}>Requested At: {item.requestedAt}</Text>
                   </View>
                   {item.requestingUser == firebase.auth().currentUser.email &&
-                    <Button 
-                    title='Edit' 
-                    onPress={() => this.props.navigation.navigate('Edit', [id, item.requestingUser, respondingUser])} />
+                    <Button
+                      title='View responses'
+                      onPress={() => this.props.navigation.navigate('Responses', id)} />
+                  }
+                  {item.requestingUser == firebase.auth().currentUser.email &&
+                    <Button
+                      title='Edit'
+                      onPress={() => this.props.navigation.navigate('Edit', [id, item.requestingUser, respondingUser])} />
                   }
                   {item.requestingUser != firebase.auth().currentUser.email &&
-                    <Button 
-                    title='Respond' 
-                    onPress={() => this.props.navigation.navigate('Response', [id, item.requestingUser, respondingUser])} />
+                    <Button
+                      title='Respond'
+                      onPress={() => this.props.navigation.navigate('Response', [id, item.requestingUser, respondingUser])} />
                   }
                 </View>
               )
