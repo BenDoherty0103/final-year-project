@@ -44,20 +44,20 @@ export default class EditRequest extends React.Component {
             var i = 0;
             for (var id in ids) {
                 i++
-                if(i == match[1]) {
+                if (i == match[1]) {
                     const matchID = ids[i]
-                    this.setState({matchID})
+                    this.setState({ matchID })
                 }
             }
-            if(ItemName != '' && ItemLocation != '' && ItemDescription != ''){
+            if (ItemName != '' && ItemLocation != '' && ItemDescription != '') {
                 db.collection("RequestsList").doc(String(this.state.matchID)).update({
-                  itemName: ItemName,
-                  itemLocation: ItemLocation,
-                  itemDescription: ItemDescription
-                }) 
+                    itemName: ItemName,
+                    itemLocation: ItemLocation,
+                    itemDescription: ItemDescription
+                })
             }
-            else{
-              Alert.alert('Error', 'Please enter a value!')
+            else {
+                Alert.alert('Error', 'Please enter a value!')
             }
         })
     }

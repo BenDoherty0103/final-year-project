@@ -37,32 +37,32 @@ export default class YourDetails extends React.Component {
     match = []
     const FullName = this.state.fullName
     db.collection("Users").get().then((querySnapshot) => {
-        querySnapshot.forEach(doc => {
-            users.push(doc.data())
-            ids.push(doc.id)
+      querySnapshot.forEach(doc => {
+        users.push(doc.data())
+        ids.push(doc.id)
+      })
+      this.setState({ users })
+      this.state.users.map((user, i) => {
+        if (user.email == firebase.auth().currentUser.email) {
+          match.push(user, i)
+        }
+      })
+      var i = 0;
+      for (var id in ids) {
+        i++
+        if (i == match[1]) {
+          const matchID = ids[i]
+          this.setState({ matchID })
+        }
+      }
+      if (FullName != '') {
+        db.collection("Users").doc(String(this.state.matchID)).update({
+          fullName: FullName
         })
-        this.setState({ users })
-        this.state.users.map((user, i) => {
-            if (user.email == firebase.auth().currentUser.email) {
-                match.push(user, i)
-            }
-        })
-        var i = 0;
-        for (var id in ids) {
-            i++
-            if(i == match[1]) {
-                const matchID = ids[i]
-                this.setState({matchID})
-            }
-        }
-        if(FullName != ''){
-            db.collection("Users").doc(String(this.state.matchID)).update({
-              fullName: FullName
-            }) 
-        }
-        else{
-          Alert.alert('Error', 'Please enter a value!')
-        }
+      }
+      else {
+        Alert.alert('Error', 'Please enter a value!')
+      }
     })
   }
 

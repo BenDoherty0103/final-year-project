@@ -30,8 +30,9 @@ export default class RequestResponsesScreen extends React.Component {
                                     return (
                                         <View>
                                             <View style={styles.listItem}>
-                                                {console.log(responses.responsebody)}
-                                                <Text style={styles.itemtext}>{responses.responsebody}</Text>
+                                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ResponseDetails', [item.id, responses.responseID])}>
+                                                    <Text style={styles.itemtext}>{responses.responsebody}</Text>
+                                                </TouchableOpacity>
                                             </View>
                                         </View>
                                     )
