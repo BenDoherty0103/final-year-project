@@ -46,6 +46,7 @@ export default class RequestDetails extends React.Component {
                 isOpen: false
             })
         })
+        this.props.navigation.replace('Main')
     }
 
 
