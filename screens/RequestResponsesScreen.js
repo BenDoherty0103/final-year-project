@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, StyleSheet, View, Button, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, View, Button, Image, TouchableOpacity } from 'react-native'
 import { db } from './../configs/firebaseConfig'
 
 
@@ -25,19 +25,32 @@ export default class RequestResponsesScreen extends React.Component {
                 <View style={styles.itemsList}>
                     {this.state.items.map((item) => {
                         if (item.id == this.props.navigation.state.params) {
-                            return (
-                                item.response.map((responses) => {
-                                    return (
-                                        <View>
-                                            <View style={styles.listItem}>
-                                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ResponseDetails', [item.id, responses.responseID])}>
-                                                    <Text style={styles.itemtext}>{responses.responsebody}</Text>
-                                                </TouchableOpacity>
+                            if (item.response) {
+                                return (
+                                    item.response.map((responses) => {
+                                        return (
+                                            <View>
+                                                <View style={styles.listItem}>
+                                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ResponseDetails', [item.id, responses.responseID])}>
+                                                        <Text style={styles.itemtext}>{responses.responsebody}</Text>
+                                                    </TouchableOpacity>
+                                                </View>
                                             </View>
-                                        </View>
-                                    )
-                                })
-                            )
+                                        )
+                                    })
+                                )
+                            }
+                            else {
+                                return (
+                                    <View style={styles.listItem}>
+                                        <Image
+                                            style={styles.image}
+                                            resizeMode={"contain"}
+                                            source={require('./../assets/images/help.jpg' )}/>
+                                        <Text style={styles.itemtext}>No responses yet, check back later!</Text>
+                                    </View>
+                                )
+                            }
                         }
                     })}
                 </View>
@@ -67,5 +80,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
+    },
+    image: {
+      width: 150,
+      height: 125,
+      backgroundColor:'#fff',
+      alignSelf: 'center'
     }
 })

@@ -35,6 +35,12 @@ export default class RequestDetails extends React.Component {
                     <Text style={styles.itemtext}>Item Description: {item.itemDescription}</Text>
                     <Text style={styles.itemtext}>Item Location: {item.itemLocation}</Text>
                     <Text style={styles.itemtext}>Requested At: {item.requestedAt}</Text>
+                    {item.isOpen == true &&
+                      <Text style={styles.itemtext}>Status: Open</Text>
+                    }
+                    {item.isOpen == false &&
+                      <Text style={styles.itemtext}>Status: Closed</Text>
+                    }
                   </View>
                   {item.requestingUser == firebase.auth().currentUser.email &&
                     <Button
