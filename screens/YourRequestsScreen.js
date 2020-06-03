@@ -5,35 +5,47 @@ import * as firebase from 'firebase'
 
 
 export default class ViewAll extends React.Component {
-  
+
   state = {
     items: []
   }
 
-  
 
-  
- componentDidMount() {
+
+
+  componentDidMount() {
     db.collection("RequestsList").get().then((querySnapshot) => {
       querySnapshot.docs.forEach(doc => {
-          const items = querySnapshot.docs.map(doc => doc.data());
-          this.setState({items})
-        });
+        const items = querySnapshot.docs.map(doc => doc.data());
+        this.setState({ items })
+      });
     });
- }
-  
+  }
+
   render() {
     return (
       <View>
         <Text style={styles.textStyle}>View Requests</Text>
         <View style={styles.itemsList}>
           {this.state.items.map((item) => {
-            if(item.requestingUser == firebase.auth().currentUser.email) {
-            return (
+            if (item.requestingUser == firebase.auth().currentUser.email) {
+              return (
                 <View style={styles.listItem}>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
-                   <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
-                  </TouchableOpacity>
+                  {item.category == 'Rideshare' &&
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
+                      <Text style={styles.itemtext}>Rideshare</Text>
+                    </TouchableOpacity>
+                  }
+                  {item.category == 'Commodity' &&
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
+                      <Text style={styles.itemtext}>{item.itemName}</Text>
+                    </TouchableOpacity>
+                  }
+                  {item.category == 'Experience' &&
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
+                      <Text style={styles.itemtext}>{item.itemName}</Text>
+                    </TouchableOpacity>
+                  }
                 </View>
               )
             }
