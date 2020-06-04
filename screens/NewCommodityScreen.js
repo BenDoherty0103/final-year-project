@@ -61,8 +61,9 @@ export default class NewCommodity extends React.Component {
           onChangeText={itemName => this.setState({ itemName })}
           value={this.state.itemName} />
         <TextInput
-          style={styles.Text}
+          style={styles.textArea}
           placeholder="Description"
+          numberOfLines={5}
           onChangeText={itemDescription => this.setState({ itemDescription })}
           value={this.state.itemDescription} />
         <TextInput
@@ -97,10 +98,21 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 40,
     width: '90%',
-    borderColor: 'white',
+    borderColor: 'grey',
     borderWidth: 1,
     marginTop: 8,
     textAlign: 'center',
     fontSize: 16
+  },
+  textArea: {
+    padding: 10,
+    width: '90%',
+    borderColor: 'grey',
+    borderWidth: 1,
+    marginTop: 8,
+    textAlign: 'center',
+    fontSize: 16,
+    height: 75,
+    justifyContent: "flex-start"
   }
 })

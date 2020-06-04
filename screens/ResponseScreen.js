@@ -30,6 +30,12 @@ export default class Response extends React.Component {
                 this.setState({ items })
             })
         });
+        db.collection("Users").get().then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const users = querySnapshot.docs.map(doc => doc.data());
+                this.setState({ users })
+            })
+        });
     }
 
     handleOnPress = (props) => {
@@ -38,6 +44,11 @@ export default class Response extends React.Component {
         ids = []
         match = []
         const RequestResponse = this.state.response
+        this.state.users.map((user) => {
+            if (firebase.auth().currentUser.email == user.email) {
+                this.setState({ userResponding: user.fullName })
+            }
+        })
         db.collection("RequestsList").get().then((querySnapshot) => {
             querySnapshot.forEach(doc => {
                 items.push(doc.data())
@@ -62,7 +73,7 @@ export default class Response extends React.Component {
                     response: firebase.firestore.FieldValue.arrayUnion(
                         {
                             responseID: ResponseID,
-                            respondingUser: firebase.auth().currentUser.email,
+                            respondingUser: this.state.userResponding,
                             responsebody: RequestResponse,
                             respondedAt: this.state.respondedAt
                         }
