@@ -30,10 +30,26 @@ export default class RequestDetails extends React.Component {
               const id = item.id
               return (
                 <View>
+
+                  {item.category == 'Rideshare' &&
+                  <View style={styles.listItem}>
+                    <Text style={styles.itemtext}>Starting Location: {item.rideshareStartingLocation}</Text>
+                    <Text style={styles.itemtext}>Destination: {item.rideshareDestination}</Text>
+                    <Text style={styles.itemtext}>Time requested: {item.rideshareTime}</Text>
+                    {item.isOpen == true &&
+                      <Text style={styles.itemtext}>Status: Open</Text>
+                    }
+                    {item.isOpen == false &&
+                      <Text style={styles.itemtext}>Status: Closed</Text>
+                    }
+                  </View>
+                  }
+                  {item.category == 'Commodity' &&
                   <View style={styles.listItem}>
                     <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
                     <Text style={styles.itemtext}>Item Description: {item.itemDescription}</Text>
                     <Text style={styles.itemtext}>Item Location: {item.itemLocation}</Text>
+                    <Text style={styles.itemtext}>Category: {item.category}</Text>
                     <Text style={styles.itemtext}>Requested At: {item.requestedAt}</Text>
                     {item.isOpen == true &&
                       <Text style={styles.itemtext}>Status: Open</Text>
@@ -42,6 +58,22 @@ export default class RequestDetails extends React.Component {
                       <Text style={styles.itemtext}>Status: Closed</Text>
                     }
                   </View>
+                  }
+                  {item.category == 'Experience' &&
+                  <View style={styles.listItem}>
+                    <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
+                    <Text style={styles.itemtext}>Item Description: {item.itemDescription}</Text>
+                    <Text style={styles.itemtext}>Item Location: {item.itemLocation}</Text>
+                    <Text style={styles.itemtext}>Category: {item.category}</Text>
+                    <Text style={styles.itemtext}>Requested At: {item.requestedAt}</Text>
+                    {item.isOpen == true &&
+                      <Text style={styles.itemtext}>Status: Open</Text>
+                    }
+                    {item.isOpen == false &&
+                      <Text style={styles.itemtext}>Status: Closed</Text>
+                    }
+                  </View>
+                  }
                   {item.requestingUser == firebase.auth().currentUser.email &&
                     <Button
                       title='View responses'

@@ -19,8 +19,8 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <Text style={{color:'black', fontSize: 30, textAlign: 'center'}}>Welcome!</Text>
-        <Text style={{color:'black', fontSize: 15, textAlign: 'center'}}>Please login or create an account</Text>
+        <Text style={styles.mainHeading}>Welcome!</Text>
+        <Text style={styles.subHeading}>Please login or create an account</Text>
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>
             {this.state.errorMessage}
@@ -46,13 +46,20 @@ export default class Login extends React.Component {
   }
 }
 const styles = StyleSheet.create({
-  titleContainer: {
-    alignItems: 'center'
-  },
   mainContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  mainHeading: {
+    color: 'black',
+    fontSize: 30,
+    textAlign: 'center'
+  },
+  subHeading: {
+    color: 'black',
+    fontSize: 15,
+    textAlign: 'center'
   },
   textInput: {
     padding: 10,

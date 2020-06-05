@@ -23,16 +23,29 @@ export default class ViewAll extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text style={styles.textStyle}>View Requests</Text>
+      <View style={styles.MainContainer}>
+        <Text style={styles.mainHeading}>View Requests</Text>
+        <Text style={styles.subHeading}>Below is a list of all requests, sorted by their title. Rideshare requests will simply have the title 'Rideshare'</Text>
         <View style={styles.itemsList}>
           {this.state.items.map((item) => {
             if (item.isOpen == true) {
               return (
                 <View style={styles.listItem}>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
-                    <Text style={styles.itemtext}>Item Name: {item.itemName}</Text>
-                  </TouchableOpacity>
+                  {item.category == 'Rideshare' &&
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
+                      <Text style={styles.itemtext}>Rideshare</Text>
+                    </TouchableOpacity>
+                  }
+                  {item.category == 'Commodity' &&
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
+                      <Text style={styles.itemtext}>{item.itemName}</Text>
+                    </TouchableOpacity>
+                  }
+                  {item.category ==  'Experience' &&
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
+                      <Text style={styles.itemtext}>{item.itemName}</Text>
+                    </TouchableOpacity>
+                  }
                 </View>
               )
             }
@@ -44,14 +57,21 @@ export default class ViewAll extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  textStyle: {
-    paddingVertical: 15,
-    textAlign: 'center',
-    fontSize: 45
+  mainHeading: {
+    fontSize: 30,
+    backgroundColor: '#FFFFFF',
+    textAlign: 'center'
   },
-  container: {
-    justifyContent: 'center',
-    backgroundColor: '#B6A6BB',
+  subHeading: {
+    fontSize: 17,
+    backgroundColor: '#FFFFFF',
+    textAlign: 'center',
+    padding: 10
+  },
+  MainContainer: {
+    paddingVertical: 30,
+    flex: 1,
+    alignItems: 'center'
   },
   itemsList: {
     flexDirection: 'column',

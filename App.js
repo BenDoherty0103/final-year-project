@@ -8,6 +8,9 @@ import YourRequestsScreen from './screens/YourRequestsScreen';
 import CommunityScreen from './screens/CommunityScreen';
 import HelpScreen from './screens/HelpScreen';
 import MakeNewRequestScreen from './screens/MakeNewRequestScreen';
+import NewCommodityScreen from './screens/NewCommodityScreen';
+import NewExperienceScreen from './screens/NewExperienceScreen';
+import NewRideshareScreen from './screens/NewRideshareScreen';
 import ViewAllRequests from './screens/ViewAllRequests';
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
 import YourProfileScreen from './screens/YourProfileScreen'
@@ -37,6 +40,9 @@ const App = createStackNavigator(
     Community: CommunityScreen,
     Help: HelpScreen,
     MakeNewRequest: MakeNewRequestScreen,
+    NewCommodity: NewCommodityScreen,
+    NewExperience: NewExperienceScreen,
+    NewRideshare: NewRideshareScreen,
     ViewAll: ViewAllRequests,
     RequestDetails: RequestDetailsScreen,
     YourProfile: YourProfileScreen,
