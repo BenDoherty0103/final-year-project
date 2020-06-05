@@ -63,18 +63,21 @@ export default class YourDetails extends React.Component {
       else {
         Alert.alert('Error', 'Please enter a value!')
       }
+      this.props.navigation.navigate('YourProfile')
     })
   }
 
   render() {
     return (
       <View>
-        <Text style={styles.textStyle}>Your Profile</Text>
+        <Text style={styles.MainHeading}>Your Profile</Text>
+        <Text style={styles.SubHeading}>If you need to change any of your details, simply enter the new value in the box and press the submit button.</Text>
         <View style={styles.itemsList}>
           {this.state.users.map((user) => {
             if (user.email == firebase.auth().currentUser.email) {
               return (
                 <View style={styles.listItem}>
+                  <Text style={styles.title}>Name: </Text>
                   <TextInput
                     style={styles.textInput}
                     placeholder={user.fullName}
@@ -92,10 +95,20 @@ export default class YourDetails extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  textStyle: {
-    paddingVertical: 15,
+  MainHeading: {
+    paddingTop: 15,
     textAlign: 'center',
     fontSize: 45
+  },
+  SubHeading: {
+    fontSize: 17,
+    backgroundColor: '#FFFFFF',
+    textAlign: 'center',
+    padding: 10
+  },
+  title: {
+    fontSize: 17,
+    textAlign: 'center'
   },
   textInput: {
     paddingVertical: 15,
