@@ -1,1 +1,0 @@
-export const geolocationAPIKey = 'AIzaSyDe95x2H42BRIjkzO2fvGaL_6JVPUbLG4g'

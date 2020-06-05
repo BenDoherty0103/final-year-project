@@ -7,6 +7,7 @@ import {
   Button,
   Picker,
 } from 'react-native'
+import Geocoder from 'react-native-geocoding'
 import Styles from '../assets/Styles'
 import { db } from './../configs/firebaseConfig'
 import * as firebase from 'firebase'
@@ -27,6 +28,30 @@ export default class NewCommodity extends React.Component {
       requestedAt:
         date + '/' + month + '/' + year + ' ' + hours + ':' + min,
     });
+    Geocoder.init("AIzaSyBfXz4yOhxAOf4vbqOpo_eu7arUWKKO-MI")
+    this.handleGeoLocation()
+  }
+
+  handleGeoLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const latitude = JSON.stringify(position.coords.latitude)
+        const longitude = JSON.stringify(position.coords.longitude)
+        this.setState({
+          latitude,
+          longitude
+        })
+        const lat = parseFloat(this.state.latitude)
+        const lng = parseFloat(this.state.longitude)
+        Geocoder.from(lat, lng)
+          .then(json => {
+            var addressComponent = json.results[0].address_components[2];
+            this.setState({ itemLocation: addressComponent.long_name })
+          })
+          .catch(error => console.log(error));
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    )
   }
 
   handleItems = () => {
@@ -66,11 +91,6 @@ export default class NewCommodity extends React.Component {
           numberOfLines={5}
           onChangeText={itemDescription => this.setState({ itemDescription })}
           value={this.state.itemDescription} />
-        <TextInput
-          style={styles.Text}
-          placeholder="Location"
-          onChangeText={itemLocation => this.setState({ itemLocation })}
-          value={this.state.itemLocation} />
         <Button title="Submit" color="#e93766" onPress={this.handleItems} />
       </View>
     )
