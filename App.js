@@ -41,10 +41,7 @@ const App = createStackNavigator(
     YourResponses: YourResponsesScreen
   },
   {
-    initialRouteName: 'Loading',
-    defaultNavigationOptions: {
-      header:null
-    }
+    initialRouteName: 'Loading'
   }
 );
 

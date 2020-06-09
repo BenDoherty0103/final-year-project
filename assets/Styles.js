@@ -5,8 +5,7 @@ export default StyleSheet.create({
   mainMenuHeading: {
     fontSize: 20,
     backgroundColor: '#FFFFFF',
-    textAlign: 'center',
-    padding: 10
+    textAlign: 'center'
   },
   mainContainer: {
     flexDirection: 'row',
@@ -15,7 +14,7 @@ export default StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
-    paddingVertical: 15
+    paddingVertical: 10
   },
   innerContainer: {
     padding: 8,

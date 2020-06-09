@@ -23,27 +23,25 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const { currentUser } = this.state
-
     return (
       <ScrollView style={Styles.scroll}>
-        <Text style={Styles.mainMenuHeading}>Welcome to Commune! Please select an option from the menu below.</Text>
-        <View style={Styles.mainContainer}>
-          <View style={Styles.rowContainer}>
-            <TouchableOpacity
-              style={Styles.innerContainer}
-              onPress={() => this.props.navigation.navigate('MakeNewRequest')} >
-              <MenuItem
-                title='Make a new request'
-                image={require('./../assets/images/add.jpg')} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Styles.innerContainer}
-              onPress={() => this.props.navigation.navigate('ViewAll')} >
-              <MenuItem
-                title='View all requests'
-                image={require('./../assets/images/list.jpg')} />
-            </TouchableOpacity>
+      <Text style={Styles.mainMenuHeading}>Welcome! Please select an option from the menu below.</Text>
+      <View style={Styles.mainContainer}>
+        <View style={Styles.rowContainer}>
+          <TouchableOpacity 
+            style={Styles.innerContainer}
+            onPress={() => this.props.navigation.navigate('MakeNewRequest')} >
+            <MenuItem
+              title='Make a new request'
+              image={require('./../assets/images/add.jpg')} />
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={Styles.innerContainer}
+            onPress={() => this.props.navigation.navigate('ViewAll')} >
+            <MenuItem
+              title='View all requests'
+              image={require('./../assets/images/list.jpg')} />
+          </TouchableOpacity>
           </View>
         </View>
         <View style={Styles.mainContainer}>
