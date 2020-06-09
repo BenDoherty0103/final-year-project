@@ -1,5 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, Text, StyleSheet, View, Button } from 'react-native'
+import Styles from '../assets/Styles'
 import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
 
@@ -52,8 +53,8 @@ export default class RequestDetails extends React.Component {
     render(props) {
         return (
             <View>
-                <Text style={styles.textStyle}>Response Details</Text>
-                <View style={styles.itemsList}>
+                <Text style={Styles.requestMainHeading}>Response Details</Text>
+                <View style={Styles.itemsList}>
                     {this.state.items.map((item) => {
                         if (item.id == this.props.navigation.state.params[0]) {
                             return (
@@ -61,17 +62,20 @@ export default class RequestDetails extends React.Component {
                                     if (responses.responseID == this.props.navigation.state.params[1]) {
                                         return (
                                             <View>
-                                                <View style={styles.listItem}>
+                                                <View style={Styles.listItem}>
                                                     <TouchableOpacity>
-                                                        <Text style={styles.itemtext}>{responses.respondingUser}</Text>
-                                                        <Text style={styles.itemtext}>{responses.responsebody}</Text>
-                                                        <Text style={styles.itemtext}>{responses.respondedAt}</Text>
+                                                        <Text style={Styles.requestsText}>Responding user: {responses.respondingUser}</Text>
+                                                        <Text style={Styles.requestsText}>Their offer: {responses.responsebody}</Text>
+                                                        <Text style={Styles.requestsText}>Responded at: {responses.respondedAt}</Text>
                                                     </TouchableOpacity>
                                                 </View>
                                                 {item.requestingUser == firebase.auth().currentUser.email &&
-                                                    <Button
-                                                        title='Accept Response'
-                                                        onPress={this.handleOnPress} />
+                                                    <View style={Styles.requestSubmit}>
+                                                        <Button
+                                                            color="#e93766"
+                                                            title='Accept Response'
+                                                            onPress={this.handleOnPress} />
+                                                    </View>
                                                 }
                                             </View>
                                         )
@@ -84,30 +88,5 @@ export default class RequestDetails extends React.Component {
             </View>
         )
     }
-
-
 }
 
-const styles = StyleSheet.create({
-    textStyle: {
-        paddingVertical: 15,
-        textAlign: 'center',
-        fontSize: 45
-    },
-    container: {
-        justifyContent: 'center',
-        backgroundColor: '#B6A6BB',
-    },
-    itemsList: {
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-    },
-    listItem: {
-        paddingVertical: 5
-    },
-    itemtext: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    }
-})

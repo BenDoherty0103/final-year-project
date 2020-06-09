@@ -53,10 +53,7 @@ const App = createStackNavigator(
     ResponseDetails: ResponseDetailsScreen
   },
   {
-    initialRouteName: 'Loading',
-    defaultNavigationOptions: {
-      header:null
-    }
+    initialRouteName: 'Loading'
   }
 );
 

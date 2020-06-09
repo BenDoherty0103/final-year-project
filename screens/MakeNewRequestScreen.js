@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  Text,
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableOpacity
-} from 'react-native'
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native'
 import MenuItem from '../components/MenuItem'
 import Styles from '../assets/Styles'
 
@@ -17,7 +11,7 @@ export default class MakeNewRequest extends React.Component {
   render() {
     return (
       <ScrollView style={Styles.scroll}>
-        <Text style={Styles.mainMenuHeading}>What kind of request would you like to make?</Text>
+        <Text style={Styles.mainHeading}>What kind of request would you like to make?</Text>
         <View style={Styles.mainContainer}>
           <View style={Styles.rowContainer}>
             <TouchableOpacity
@@ -51,27 +45,3 @@ export default class MakeNewRequest extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  textStyle: {
-    paddingVertical: 15,
-    textAlign: 'center',
-    fontSize: 45
-  },
-  container: {
-    justifyContent: 'center',
-    backgroundColor: '#B6A6BB',
-  },
-  itemsList: {
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-  },
-  listItem: {
-    paddingVertical: 5
-  },
-  itemtext: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  }
-})

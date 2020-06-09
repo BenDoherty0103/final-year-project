@@ -1,5 +1,6 @@
 import React from 'react'
-import { Text, StyleSheet, View, Button } from 'react-native'
+import { Text, View, Button } from 'react-native'
+import Styles from '../assets/Styles'
 import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
 import { TextInput } from 'react-native-gesture-handler'
@@ -90,21 +91,21 @@ export default class Response extends React.Component {
     render(props) {
         return (
             <View>
-                <Text style={styles.textStyle}>Your Response</Text>
-                <View style={styles.itemsList}>
+                <Text style={Styles.requestMainHeading}>Your Response</Text>
+                <View style={Styles.requestsList}>
                     {this.state.items.map((item) => {
                         if (item.id == this.props.navigation.state.params[0]) {
                             return (
                                 <View>
-                                    <Text style={styles.itemtext}>
+                                    <Text style={Styles.requestSubHeading}>
                                         Please enter your response to this request.
                                         The requesting user will accept or reject your response.
                                     </Text>
-                                    <View style={styles.textAreaContainer} >
+                                    <View style={Styles.responseTextAreaContainer} >
                                         <TextInput
-                                            style={styles.textArea}
+                                            style={Styles.responseTextArea}
                                             underlineColorAndroid="transparent"
-                                            placeholder="Type something"
+                                            placeholder="Type your response here"
                                             placeholderTextColor="grey"
                                             numberOfLines={10}
                                             multiline={true}
@@ -117,38 +118,11 @@ export default class Response extends React.Component {
                         }
                     })}
                 </View>
-                <Button title='Submit' onPress={this.handleOnPress} />
+                <View style={Styles.requestSubmit}>
+                    <Button title="Submit" color="#e93766" onPress={this.handleItems} />
+                </View>
             </View>
         )
     }
 }
 
-const styles = StyleSheet.create({
-    textStyle: {
-        paddingVertical: 15,
-        textAlign: 'center',
-        fontSize: 45
-    },
-    container: {
-        justifyContent: 'center',
-        backgroundColor: '#B6A6BB',
-    },
-    itemsList: {
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-    },
-    itemtext: {
-        fontSize: 16,
-        textAlign: 'center',
-        padding: 10
-    },
-    textAreaContainer: {
-        borderColor: 'grey',
-        borderWidth: 1,
-        padding: 15
-    },
-    textArea: {
-        height: 150,
-        justifyContent: "flex-start"
-    }
-})

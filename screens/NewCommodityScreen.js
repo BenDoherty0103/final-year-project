@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Text,
-  StyleSheet,
-  View,
-  TextInput,
-  Button,
-  Picker,
-} from 'react-native'
+import { Text, View, TextInput, Button } from 'react-native'
 import Geocoder from 'react-native-geocoding'
 import Styles from '../assets/Styles'
 import { db } from './../configs/firebaseConfig'
@@ -77,62 +70,24 @@ export default class NewCommodity extends React.Component {
 
   render() {
     return (
-      <View style={styles.MainContainer}>
-        <Text style={styles.MainHeading}>New commodity request</Text>
-        <Text style={styles.SubHeading}>Please fill out the fields below, and try to be as descriptive as possible.</Text>
+      <View style={Styles.requestMainContainer}>
+        <Text style={Styles.requestMainHeading}>New commodity request</Text>
+        <Text style={Styles.requestSubHeading}>Please fill out the fields below, and try to be as descriptive as possible.</Text>
         <TextInput
-          style={styles.Text}
+          style={Styles.requestText}
           placeholder="Title"
           onChangeText={itemName => this.setState({ itemName })}
           value={this.state.itemName} />
         <TextInput
-          style={styles.textArea}
+          style={Styles.requestTextArea}
           placeholder="Description"
           numberOfLines={5}
           onChangeText={itemDescription => this.setState({ itemDescription })}
           value={this.state.itemDescription} />
-        <Button title="Submit" color="#e93766" onPress={this.handleItems} />
+        <View style={Styles.requestSubmit}>
+          <Button title="Submit" color="#e93766" onPress={this.handleItems} />
+        </View>
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  MainHeading: {
-    fontSize: 30,
-    backgroundColor: '#FFFFFF',
-    textAlign: 'center'
-  },
-  SubHeading: {
-    fontSize: 17,
-    backgroundColor: '#FFFFFF',
-    textAlign: 'center',
-    padding: 10
-  },
-  MainContainer: {
-    paddingVertical: 30,
-    flex: 1,
-    alignItems: 'center'
-  },
-  Text: {
-    padding: 10,
-    height: 40,
-    width: '90%',
-    borderColor: 'grey',
-    borderWidth: 1,
-    marginTop: 8,
-    textAlign: 'center',
-    fontSize: 16
-  },
-  textArea: {
-    padding: 10,
-    width: '90%',
-    borderColor: 'grey',
-    borderWidth: 1,
-    marginTop: 8,
-    textAlign: 'center',
-    fontSize: 16,
-    height: 75,
-    justifyContent: "flex-start"
-  }
-})

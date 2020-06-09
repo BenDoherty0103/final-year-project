@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
+import { View, Text, ActivityIndicator } from 'react-native'
 import * as firebase from 'firebase'
-import db from './../configs/firebaseConfig'
+import Styles from '../assets/Styles'
 
 
 
@@ -16,18 +16,10 @@ export default class Loading extends React.Component {
   //Standard render method for loading wheel
   render() {
     return (
-      <View style={styles.mainContainer}>
+      <View style={Styles.loadingContainer}>
         <Text style={{color:'#e93766', fontSize: 40}}>Loading</Text>
         <ActivityIndicator color='#e93766' size="large" />
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
-})
