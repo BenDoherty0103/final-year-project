@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native'
 import MenuItem from '../components/MenuItem'
 import * as firebase from 'firebase'
 import Styles from '../assets/Styles'
@@ -25,23 +20,23 @@ export default class Home extends React.Component {
   render() {
     return (
       <ScrollView style={Styles.scroll}>
-      <Text style={Styles.mainMenuHeading}>Welcome! Please select an option from the menu below.</Text>
-      <View style={Styles.mainContainer}>
-        <View style={Styles.rowContainer}>
-          <TouchableOpacity 
-            style={Styles.innerContainer}
-            onPress={() => this.props.navigation.navigate('MakeNewRequest')} >
-            <MenuItem
-              title='Make a new request'
-              image={require('./../assets/images/add.jpg')} />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={Styles.innerContainer}
-            onPress={() => this.props.navigation.navigate('ViewAll')} >
-            <MenuItem
-              title='View all requests'
-              image={require('./../assets/images/list.jpg')} />
-          </TouchableOpacity>
+        <Text style={Styles.mainHeading}>Welcome! Please select an option from the menu below.</Text>
+        <View style={Styles.mainContainer}>
+          <View style={Styles.rowContainer}>
+            <TouchableOpacity
+              style={Styles.innerContainer}
+              onPress={() => this.props.navigation.navigate('MakeNewRequest')} >
+              <MenuItem
+                title='Make a new request'
+                image={require('./../assets/images/add.jpg')} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Styles.innerContainer}
+              onPress={() => this.props.navigation.navigate('ViewAll')} >
+              <MenuItem
+                title='View all requests'
+                image={require('./../assets/images/list.jpg')} />
+            </TouchableOpacity>
           </View>
         </View>
         <View style={Styles.mainContainer}>

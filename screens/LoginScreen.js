@@ -1,5 +1,6 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, Image } from 'react-native'
+import { Text, TextInput, View, Button, Image } from 'react-native'
+import Styles from '../assets/Styles'
 import * as firebase from 'firebase'
 
 export default class Login extends React.Component {
@@ -18,14 +19,14 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <Text style={styles.mainHeading}>Welcome!</Text>
-        <Text style={styles.subHeading}>Please login or create an account</Text>
+      <View style={Styles.loginContainer}>
+        <Text style={Styles.requestMainHeading}>Welcome!</Text>
+        <Text style={Styles.requestSubHeading}>Please login or create an account</Text>
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>
             {this.state.errorMessage}
           </Text>}
-        <TextInput style={styles.textInput}
+        <TextInput style={Styles.requestText}
           autoCapitalize="none"
           placeholder="Email"
           onChangeText={email => this.setState({ email })}
@@ -33,42 +34,15 @@ export default class Login extends React.Component {
         />
         <TextInput
           secureTextEntry
-          style={styles.textInput}
+          style={Styles.requestText}
           autoCapitalize="none"
           placeholder="Password"
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
         <Button title="Login" color="#e93766" onPress={this.handleLogin} />
-        <Text> Don't have an account? <Text onPress={() => this.props.navigation.navigate('SignUp')} style={{color:'#e93766', fontSize: 18}}> Sign up </Text></Text>
+        <Text style={Styles.requestSubHeading}> Don't have an account? <Text onPress={() => this.props.navigation.navigate('SignUp')} style={{color:'#e93766', fontSize: 18}}> Sign up </Text></Text>
       </View>
     )
   }
 }
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  mainHeading: {
-    color: 'black',
-    fontSize: 30,
-    textAlign: 'center'
-  },
-  subHeading: {
-    color: 'black',
-    fontSize: 15,
-    textAlign: 'center'
-  },
-  textInput: {
-    padding: 10,
-    height: 40,
-    width: '90%',
-    borderColor: 'white',
-    borderWidth: 1,
-    marginTop: 8,
-    textAlign: 'center',
-    fontSize: 16
-  }
-})

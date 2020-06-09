@@ -1,6 +1,5 @@
 import React from 'react'
-import { ScrollView, Text, StyleSheet, View, TouchableOpacity } from 'react-native'
-import * as firebase from 'firebase'
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native'
 import { db } from './../configs/firebaseConfig'
 import MenuItem from '../components/MenuItem'
 import Styles from '../assets/Styles'
@@ -24,7 +23,7 @@ export default class YourProfile extends React.Component {
   render() {
     return (
       <ScrollView style={Styles.scroll}>
-        <Text style={Styles.mainMenuHeading}>Please select an option from the menu below.</Text>
+        <Text style={Styles.mainHeading}>Please select an option from the menu below.</Text>
         <View style={Styles.mainContainer}>
           <View style={Styles.rowContainer}>
             <TouchableOpacity

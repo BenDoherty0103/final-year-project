@@ -1,8 +1,17 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-  //main menu heading size is different to usual main heading size to account for amount of info on
-  mainMenuHeading: {
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },  
+  loginContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  mainHeading: {
     fontSize: 20,
     backgroundColor: '#FFFFFF',
     textAlign: 'center'
@@ -10,7 +19,6 @@ export default StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
   },
   rowContainer: {
     flexDirection: 'row',
@@ -18,61 +26,77 @@ export default StyleSheet.create({
   },
   innerContainer: {
     padding: 8,
-    backgroundColor: "#ffffff",
   },
   scroll: {
-    paddingVertical: 30
+    padding: 5
   },
-  mainHeading: {
+  requestMainHeading: {
     fontSize: 30,
     backgroundColor: '#FFFFFF',
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: 5
   },
-  subHeading: {
-    fontSize: 20,
+  requestSubHeading: {
+    fontSize: 15,
     backgroundColor: '#FFFFFF',
-    textAlign: 'center'
-  },
-  requestContainer: {
-    paddingTop: 50
+    textAlign: 'center',
+    padding: 5
   },
   requestMainContainer: {
-    justifyContent: 'center',
     alignItems: 'center'
   },
-  pick: {
-    width: 100,
-    alignSelf: 'center'
-  },
-  textInput: {
-    padding: 10,
+  requestText: {
     height: 40,
     width: '90%',
-    borderColor: 'white',
+    borderColor: 'grey',
     borderWidth: 1,
     marginTop: 8,
     textAlign: 'center',
     fontSize: 16
   },
-  textStyle: {
-    paddingVertical: 15,
+  requestTextArea: {
+    width: '90%',
+    borderColor: 'grey',
+    borderWidth: 1,
+    marginTop: 8,
     textAlign: 'center',
-    fontSize: 45
+    fontSize: 16,
+    height: 75,
+    justifyContent: "flex-start"
   },
-  container: {
-    justifyContent: 'center',
+  requestSubmit: {
+    padding: 10
+  },
+  requestContainer: {
+    flex: 1,
+    alignItems: 'center'
   },
   itemsList: {
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: 'space-around'
   },
   listItem: {
-    paddingVertical: 5,
-    padding: 20
+    paddingVertical: 5
   },
-  itemInfo: {
+  requestsText: {
     fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
-  }
+    textAlign: 'center'
+  },
+  responseTextAreaContainer: {
+    alignContent: 'center',
+    borderWidth: 1,
+    padding: 15
+  },
+  responseTextArea: {
+    borderColor: 'grey',
+    height: 150,
+    justifyContent: "flex-start"
+  },
+  image: {
+      width: 150,
+      height: 125,
+      backgroundColor: '#fff',
+      alignSelf: 'center'
+  },
 });

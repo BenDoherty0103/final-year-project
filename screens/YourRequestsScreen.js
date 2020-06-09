@@ -1,17 +1,14 @@
 import React from 'react'
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native'
+import { TouchableOpacity, Text, View } from 'react-native'
+import Styles from '../assets/Styles'
 import { db } from './../configs/firebaseConfig'
 import * as firebase from 'firebase'
-
 
 export default class ViewAll extends React.Component {
 
   state = {
     items: []
   }
-
-
-
 
   componentDidMount() {
     db.collection("RequestsList").get().then((querySnapshot) => {
@@ -24,26 +21,27 @@ export default class ViewAll extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text style={styles.textStyle}>View Requests</Text>
-        <View style={styles.itemsList}>
+      <View style={Styles.requestContainer}>
+        <Text style={Styles.requestMainHeading}>View Your Requests</Text>
+        <Text style={Styles.requestSubHeading}>Below is a list of your requests, sorted by their title. Rideshare requests will simply have the title 'Rideshare'.</Text>
+        <View style={Styles.requestsList}>
           {this.state.items.map((item) => {
             if (item.requestingUser == firebase.auth().currentUser.email) {
               return (
-                <View style={styles.listItem}>
+                <View style={Styles.listItem}>
                   {item.category == 'Rideshare' &&
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
-                      <Text style={styles.itemtext}>Rideshare</Text>
+                      <Text style={Styles.requestsText}>Rideshare</Text>
                     </TouchableOpacity>
                   }
                   {item.category == 'Commodity' &&
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
-                      <Text style={styles.itemtext}>{item.itemName}</Text>
+                      <Text style={Styles.requestsText}>{item.itemName}</Text>
                     </TouchableOpacity>
                   }
                   {item.category == 'Experience' &&
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('RequestDetails', item.id)}>
-                      <Text style={styles.itemtext}>{item.itemName}</Text>
+                      <Text style={Styles.requestsText}>{item.itemName}</Text>
                     </TouchableOpacity>
                   }
                 </View>
@@ -55,27 +53,3 @@ export default class ViewAll extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  textStyle: {
-    paddingVertical: 15,
-    textAlign: 'center',
-    fontSize: 45
-  },
-  container: {
-    justifyContent: 'center',
-    backgroundColor: '#B6A6BB',
-  },
-  itemsList: {
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-  },
-  listItem: {
-    paddingVertical: 5
-  },
-  itemtext: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  }
-})

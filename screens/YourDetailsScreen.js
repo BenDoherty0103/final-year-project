@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Text, StyleSheet, View, Alert } from 'react-native'
+import Styles from '../assets/Styles'
 import * as firebase from 'firebase'
 import { db } from '../configs/firebaseConfig'
 import { TextInput } from 'react-native-gesture-handler'
@@ -69,21 +70,22 @@ export default class YourDetails extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text style={styles.MainHeading}>Your Profile</Text>
-        <Text style={styles.SubHeading}>If you need to change any of your details, simply enter the new value in the box and press the submit button.</Text>
-        <View style={styles.itemsList}>
+      <View style={Styles.requestMainContainer}>
+        <Text style={Styles.requestMainHeading}>Your Profile</Text>
+        <Text style={Styles.requestSubHeading}>If you need to change any of your details, simply enter the new value in the box and press the submit button.</Text>
+        <View style={Styles.requestsList}>
           {this.state.users.map((user) => {
             if (user.email == firebase.auth().currentUser.email) {
               return (
-                <View style={styles.listItem}>
-                  <Text style={styles.title}>Name: </Text>
+                <View style={Styles.listItem}>
                   <TextInput
-                    style={styles.textInput}
-                    placeholder={user.fullName}
+                    style={Styles.requestText}
+                    placeholder='Name'
                     onChangeText={fullName => this.setState({ fullName })}
                     value={this.state.fullName} />
-                  <Button title='Submit Changes' onPress={this.handleOnPress}></Button>
+                  <View style={Styles.requestSubmit}>
+                    <Button title='Submit Changes' color="#e93766" onPress={this.handleOnPress}></Button>
+                  </View>
                 </View>
               )
             }
@@ -93,33 +95,3 @@ export default class YourDetails extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  MainHeading: {
-    paddingTop: 15,
-    textAlign: 'center',
-    fontSize: 45
-  },
-  SubHeading: {
-    fontSize: 17,
-    backgroundColor: '#FFFFFF',
-    textAlign: 'center',
-    padding: 10
-  },
-  title: {
-    fontSize: 17,
-    textAlign: 'center'
-  },
-  textInput: {
-    paddingVertical: 15,
-    textAlign: 'center',
-    fontSize: 25
-  },
-  itemsList: {
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-  },
-  listItem: {
-    paddingVertical: 5
-  }
-})

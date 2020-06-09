@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Text, StyleSheet, View, Alert } from 'react-native'
-import * as firebase from 'firebase'
+import Styles from '../assets/Styles'
 import { db } from '../configs/firebaseConfig'
 import { TextInput } from 'react-native-gesture-handler'
 
@@ -52,7 +52,6 @@ export default class EditRequest extends React.Component {
             if (ItemName != '' && ItemLocation != '' && ItemDescription != '') {
                 db.collection("RequestsList").doc(String(this.state.matchID)).update({
                     itemName: ItemName,
-                    itemLocation: ItemLocation,
                     itemDescription: ItemDescription
                 })
             }
@@ -64,29 +63,26 @@ export default class EditRequest extends React.Component {
 
     render() {
         return (
-            <View>
-                <Text style={styles.textStyle}>Your Request</Text>
-                <View style={styles.itemsList}>
+            <View style={Styles.requestMainContainer}>
+                <Text style={Styles.requestMainHeading}>Your Request</Text>
+                <View style={Styles.itemsList}>
                     {this.state.items.map((item) => {
                         if (item.id == this.props.navigation.state.params[0]) {
                             return (
-                                <View style={styles.listItem}>
+                                <View style={Styles.listItem}>
                                     <TextInput
-                                        style={styles.textInput}
-                                        placeholder={item.itemName}
+                                        style={Styles.requestText}
+                                        placeholder='Item name'
                                         onChangeText={itemName => this.setState({ itemName })}
                                         value={this.state.itemName} />
                                     <TextInput
-                                        style={styles.textInput}
-                                        placeholder={item.itemLocation}
-                                        onChangeText={itemLocation => this.setState({ itemLocation })}
-                                        value={this.state.itemLocation} />
-                                    <TextInput
-                                        style={styles.textInput}
-                                        placeholder={item.itemDescription}
+                                        style={Styles.requestText}
+                                        placeholder='Item Description'
                                         onChangeText={itemDescription => this.setState({ itemDescription })}
                                         value={this.state.itemDescription} />
-                                    <Button title='Submit Changes' onPress={this.handleOnPress}></Button>
+                                    <View style={Styles.requestSubmit}>
+                                        <Button title='Submit Changes' color="#e93766" onPress={this.handleOnPress}></Button>
+                                    </View>
                                 </View>
                             )
                         }
@@ -96,23 +92,3 @@ export default class EditRequest extends React.Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    textStyle: {
-        paddingVertical: 15,
-        textAlign: 'center',
-        fontSize: 45
-    },
-    textInput: {
-        paddingVertical: 15,
-        textAlign: 'center',
-        fontSize: 25
-    },
-    itemsList: {
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-    },
-    listItem: {
-        paddingVertical: 5
-    }
-})
