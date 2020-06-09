@@ -8,11 +8,17 @@ import YourRequestsScreen from './screens/YourRequestsScreen';
 import CommunityScreen from './screens/CommunityScreen';
 import HelpScreen from './screens/HelpScreen';
 import MakeNewRequestScreen from './screens/MakeNewRequestScreen';
+import NewCommodityScreen from './screens/NewCommodityScreen';
+import NewExperienceScreen from './screens/NewExperienceScreen';
+import NewRideshareScreen from './screens/NewRideshareScreen';
 import ViewAllRequests from './screens/ViewAllRequests';
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
 import YourProfileScreen from './screens/YourProfileScreen'
 import YourDetailsScreen from './screens/YourDetailsScreen'
-import YourResponsesScreen from './screens/YourResponsesScreen'
+import ResponseScreen from './screens/ResponseScreen'
+import RequestResponsesScreen from './screens/RequestResponsesScreen'
+import ResponseDetailsScreen from './screens/ResponseDetailsScreen'
+import EditScreen from './screens/EditRequestScreen'
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
 
@@ -34,11 +40,17 @@ const App = createStackNavigator(
     Community: CommunityScreen,
     Help: HelpScreen,
     MakeNewRequest: MakeNewRequestScreen,
+    NewCommodity: NewCommodityScreen,
+    NewExperience: NewExperienceScreen,
+    NewRideshare: NewRideshareScreen,
     ViewAll: ViewAllRequests,
     RequestDetails: RequestDetailsScreen,
     YourProfile: YourProfileScreen,
     YourDetails: YourDetailsScreen,
-    YourResponses: YourResponsesScreen
+    Response: ResponseScreen,
+    Edit: EditScreen,
+    Responses: RequestResponsesScreen,
+    ResponseDetails: ResponseDetailsScreen
   },
   {
     initialRouteName: 'Loading'

@@ -43,12 +43,9 @@ export default class NewCommodity extends React.Component {
         })
         const lat = parseFloat(this.state.latitude)
         const lng = parseFloat(this.state.longitude)
-        console.log(lat)
-        console.log(lng)
         Geocoder.from(lat, lng)
           .then(json => {
             var addressComponent = json.results[0].address_components[2];
-            console.log(addressComponent)
             this.setState({ itemLocation: addressComponent.long_name })
           })
           .catch(error => console.log(error));

@@ -31,32 +31,56 @@ export default class YourDetails extends React.Component {
     });
   }
 
-  handleOnPress = () => {
-    const currentID = this.state.currentUserID
+  handleOnPress = (props) => {
+    users = []
+    ids = []
+    match = []
     const FullName = this.state.fullName
-    if(FullName != ''){
-      db.collection("Users").doc(currentID).update({
-        fullName: FullName
-      }) 
-    this.props.navigation.replace('Main')
-    }
-    else{
-      Alert.alert('Error', 'Please enter a value!')
-    }
+    db.collection("Users").get().then((querySnapshot) => {
+      querySnapshot.forEach(doc => {
+        users.push(doc.data())
+        ids.push(doc.id)
+      })
+      this.setState({ users })
+      this.state.users.map((user, i) => {
+        if (user.email == firebase.auth().currentUser.email) {
+          match.push(user, i)
+        }
+      })
+      var i = 0;
+      for (var id in ids) {
+        i++
+        if (i == match[1]) {
+          const matchID = ids[i]
+          this.setState({ matchID })
+        }
+      }
+      if (FullName != '') {
+        db.collection("Users").doc(String(this.state.matchID)).update({
+          fullName: FullName
+        })
+      }
+      else {
+        Alert.alert('Error', 'Please enter a value!')
+      }
+      this.props.navigation.navigate('YourProfile')
+    })
   }
 
   render() {
     return (
       <View>
-        <Text style={styles.textStyle}>Your Profile</Text>
+        <Text style={styles.MainHeading}>Your Profile</Text>
+        <Text style={styles.SubHeading}>If you need to change any of your details, simply enter the new value in the box and press the submit button.</Text>
         <View style={styles.itemsList}>
           {this.state.users.map((user) => {
             if (user.email == firebase.auth().currentUser.email) {
               return (
                 <View style={styles.listItem}>
+                  <Text style={styles.title}>Name: </Text>
                   <TextInput
                     style={styles.textInput}
-                    placeholder='Please enter a value'
+                    placeholder={user.fullName}
                     onChangeText={fullName => this.setState({ fullName })}
                     value={this.state.fullName} />
                   <Button title='Submit Changes' onPress={this.handleOnPress}></Button>
@@ -71,10 +95,20 @@ export default class YourDetails extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  textStyle: {
-    paddingVertical: 15,
+  MainHeading: {
+    paddingTop: 15,
     textAlign: 'center',
     fontSize: 45
+  },
+  SubHeading: {
+    fontSize: 17,
+    backgroundColor: '#FFFFFF',
+    textAlign: 'center',
+    padding: 10
+  },
+  title: {
+    fontSize: 17,
+    textAlign: 'center'
   },
   textInput: {
     paddingVertical: 15,
