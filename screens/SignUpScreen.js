@@ -13,7 +13,7 @@ export default class SignUp extends React.Component {
 
   //Method to create and store user, then navigate from login screen to main screen
   handleSignUp = () => {
-    const { fullName, email, password, town } = this.state
+    const { fullName, email, password, town, latitude, longitude } = this.state
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -23,14 +23,15 @@ export default class SignUp extends React.Component {
           fullName,
           email,
           password,
-          town
+          town,
+          latitude,
+          longitude
         }).catch((error) => {
           //error callback
           console.log('error ', error)
         })
       })
       .catch(error => this.setState({ errorMessage: error.message }))
-
   }
 
   componentDidMount() {
