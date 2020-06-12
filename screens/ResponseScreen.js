@@ -58,33 +58,26 @@ export default class Response extends React.Component {
             this.setState({ items })
             this.state.items.map((item, i) => {
                 if (item.id == this.props.navigation.state.params[0]) {
-                    match.push(item, i)
+                    const matchIndex = i
+                    const matchID = ids[matchIndex]
+                    if (RequestResponse != '') {
+                        db.collection("RequestsList").doc(String(matchID)).update({
+                            response: firebase.firestore.FieldValue.arrayUnion(
+                                {
+                                    responseID: ResponseID,
+                                    respondingUser: this.state.userResponding,
+                                    responsebody: RequestResponse,
+                                    respondedAt: this.state.respondedAt
+                                }
+                            )
+                        })
+                        this.props.navigation.replace('Main')
+                    }
+                    else {
+                        Alert.alert('Error', 'Please enter a value!')
+                    }
                 }
             })
-            var i = 0;
-            for (var id in ids) {
-                i++
-                if (i == match[1]) {
-                    const matchID = ids[i]
-                    this.setState({ matchID })
-                }
-            }
-            if (RequestResponse != '') {
-                db.collection("RequestsList").doc(String(this.state.matchID)).update({
-                    response: firebase.firestore.FieldValue.arrayUnion(
-                        {
-                            responseID: ResponseID,
-                            respondingUser: this.state.userResponding,
-                            responsebody: RequestResponse,
-                            respondedAt: this.state.respondedAt
-                        }
-                    )
-                })
-                this.props.navigation.replace('Main')
-            }
-            else {
-                Alert.alert('Error', 'Please enter a value!')
-            }
         })
     }
 
@@ -119,7 +112,7 @@ export default class Response extends React.Component {
                     })}
                 </View>
                 <View style={Styles.requestSubmit}>
-                    <Button title="Submit" color="#e93766" onPress={this.handleItems} />
+                    <Button title="Submit" color="#e93766" onPress={this.handleOnPress} />
                 </View>
             </View>
         )

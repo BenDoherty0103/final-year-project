@@ -14,7 +14,7 @@ export default class RequestDetails extends React.Component {
     }
 
     componentDidMount(props) {
-        Geocoder.init("AIzaSyBfXz4yOhxAOf4vbqOpo_eu7arUWKKO-MI")
+        Geocoder.init("AIzaSyBAzY7hX1PYVw5eU-k24mR7FeK_Uc9P0Sk")
         this.handleGeoLocation()
         db.collection("RequestsList").get().then(querySnapshot => {
             querySnapshot.forEach(doc => {

@@ -13,54 +13,35 @@ export default class SignUp extends React.Component {
 
   //Method to create and store user, then navigate from login screen to main screen
   handleSignUp = () => {
-    const { fullName, email, password, town, latitude, longitude } = this.state
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => this.props.navigation.navigate('Main'))
-      .then(() => {
-        db.collection('Users').add({
-          fullName,
-          email,
-          password,
-          town,
-          latitude,
-          longitude
-        }).catch((error) => {
-          //error callback
-          console.log('error ', error)
-        })
-      })
-      .catch(error => this.setState({ errorMessage: error.message }))
-  }
-
-  componentDidMount() {
-    Geocoder.init("AIzaSyBfXz4yOhxAOf4vbqOpo_eu7arUWKKO-MI")
-    this.handleGeoLocation()
-  }
-
-  handleGeoLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const latitude = JSON.stringify(position.coords.latitude)
-        const longitude = JSON.stringify(position.coords.longitude)
-        this.setState({
-          latitude,
-          longitude
-        })
-        const lat = parseFloat(this.state.latitude)
-        const lng = parseFloat(this.state.longitude)
-        Geocoder.from(lat, lng)
-          .then(json => {
-            var addressComponent = json.results[0].address_components[2];
-            this.setState({ town: addressComponent.long_name })
+    Geocoder.init("AIzaSyBAzY7hX1PYVw5eU-k24mR7FeK_Uc9P0Sk")
+    const { fullName, email, password, address, town, postcode } = this.state
+    const location = String(address + ' ' + town + ' ' + postcode)
+    Geocoder.from(location)
+      .then(json => {
+        var loc = json.results[0].geometry.location;
+        const latitude = String(loc.lat)
+        const longitude = String(loc.lng)
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            db.collection('Users').add({
+              fullName,
+              email,
+              password,
+              town,
+              latitude,
+              longitude
+            }).catch((error) => {
+              //error callback
+              console.log('error ', error)
+            })
           })
-          .catch(error => console.log(error));
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    )
-  }
+          .then(() => this.props.navigation.navigate('Main'))
+          .catch(error => this.setState({ errorMessage: error.message }))
+      })
 
+  }
 
   render() {
     return (
@@ -77,6 +58,24 @@ export default class SignUp extends React.Component {
           style={Styles.requestText}
           onChangeText={fullName => this.setState({ fullName })}
           value={this.state.fullName} />
+        <TextInput
+          placeholder="Address Line 1"
+          autoCapitalize="none"
+          style={Styles.requestText}
+          onChangeText={address => this.setState({ address })}
+          value={this.state.address} />
+        <TextInput
+          placeholder="Town"
+          autoCapitalize="none"
+          style={Styles.requestText}
+          onChangeText={town => this.setState({ town })}
+          value={this.state.town} />
+        <TextInput
+          placeholder="Postcode"
+          autoCapitalize="none"
+          style={Styles.requestText}
+          onChangeText={postcode => this.setState({ postcode })}
+          value={this.state.postcode} />
         <TextInput
           placeholder="Email"
           autoCapitalize="none"
