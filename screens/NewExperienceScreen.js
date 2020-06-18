@@ -26,25 +26,17 @@ export default class NewExperience extends React.Component {
   }
 
   handleGeoLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const latitude = JSON.stringify(position.coords.latitude)
-        const longitude = JSON.stringify(position.coords.longitude)
-        this.setState({
-          latitude,
-          longitude
+    db.collection("Users").get().then((querySnapshot) => {
+      querySnapshot.docs.forEach(doc => {
+        const users = querySnapshot.docs.map(doc => doc.data());
+        users.map((user) => {
+          if (user.email == firebase.auth().currentUser.email) {
+            this.setState({ itemLocation: user.town })
+          }
         })
-        const lat = parseFloat(this.state.latitude)
-        const lng = parseFloat(this.state.longitude)
-        Geocoder.from(lat, lng)
-          .then(json => {
-            var addressComponent = json.results[0].address_components[2];
-            this.setState({ itemLocation: addressComponent.long_name })
-          })
-          .catch(error => console.log(error));
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    )
+        this.setState({ users })
+      })
+    }).catch(error => console.warn(error));
   }
 
   handleItems = () => {

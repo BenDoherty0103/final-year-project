@@ -29,6 +29,7 @@ export default class SignUp extends React.Component {
               fullName,
               email,
               password,
+              location,
               town,
               latitude,
               longitude
@@ -40,7 +41,6 @@ export default class SignUp extends React.Component {
           .then(() => this.props.navigation.navigate('Main'))
           .catch(error => this.setState({ errorMessage: error.message }))
       })
-
   }
 
   render() {
