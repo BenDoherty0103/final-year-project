@@ -53,7 +53,7 @@ export default class YourProfile extends React.Component {
               onPress={() => this.props.navigation.navigate('YourResponses')} >
               <MenuItem
                 title='View your responses'
-                image={require('./../assets/images/person.jpg')} />
+                image={require('./../assets/images/community.jpg')} />
             </TouchableOpacity>
           </View>
         </View>

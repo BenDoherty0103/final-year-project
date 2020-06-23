@@ -76,7 +76,9 @@ export default StyleSheet.create({
     justifyContent: 'space-around'
   },
   listItem: {
-    paddingVertical: 5
+    paddingVertical: 5,
+    width: '90%',
+    alignSelf: 'center'
   },
   requestsText: {
     fontSize: 16,
@@ -98,5 +100,15 @@ export default StyleSheet.create({
       height: 125,
       backgroundColor: '#fff',
       alignSelf: 'center'
+  },
+  helpQuestionText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  helpAnswerText: {
+    fontSize: 14,
+    paddingVertical: 3,
+    textAlign: 'center'
   },
 });
