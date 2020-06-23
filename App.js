@@ -15,6 +15,7 @@ import ViewAllRequests from './screens/ViewAllRequests';
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
 import YourProfileScreen from './screens/YourProfileScreen'
 import YourDetailsScreen from './screens/YourDetailsScreen'
+import YourResponsesScreen from './screens/YourResponsesScreen'
 import ResponseScreen from './screens/ResponseScreen'
 import RequestResponsesScreen from './screens/RequestResponsesScreen'
 import ResponseDetailsScreen from './screens/ResponseDetailsScreen'
@@ -22,7 +23,7 @@ import EditScreen from './screens/EditRequestScreen'
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
 
-YellowBox.ignoreWarnings(['Setting a timer', 'crypto not usable', 'Each child in a list']);
+YellowBox.ignoreWarnings(['Setting a timer', 'crypto not usable', 'Each child in a list', 'error is not a function.']);
 const _console = _.clone(console);
 console.warn = message => {
   if (message.indexOf('Setting a timer') <= -1) {
@@ -47,6 +48,7 @@ const App = createStackNavigator(
     RequestDetails: RequestDetailsScreen,
     YourProfile: YourProfileScreen,
     YourDetails: YourDetailsScreen,
+    YourResponses: YourResponsesScreen,
     Response: ResponseScreen,
     Edit: EditScreen,
     Responses: RequestResponsesScreen,

@@ -4,6 +4,7 @@ import Styles from '../assets/Styles'
 import { db } from './../configs/firebaseConfig'
 import * as firebase from 'firebase'
 import uuid from 'react-native-uuid'
+import Geocoder from 'react-native-geocoding'
 
 export default class NewRideshare extends React.Component {
 
@@ -29,34 +30,67 @@ export default class NewRideshare extends React.Component {
             requestedAt:
                 date + '/' + month + '/' + year + ' ' + hours + ':' + min,
         });
+        this.handleGeolocation()
+    }
+
+    handleGeolocation = () => {
+        db.collection("Users").get().then((querySnapshot) => {
+            querySnapshot.docs.forEach(doc => {
+                const users = querySnapshot.docs.map(doc => doc.data());
+                users.map((user) => {
+                    if (user.email == firebase.auth().currentUser.email) {
+                        this.setState({ town: user.town })
+                    }
+                })
+                this.setState({ users })
+            })
+        }).catch(error => console.warn(error));
     }
 
     handleItems = () => {
-        const id = uuid.v1().toString()
-        const requestingUser = firebase.auth().currentUser.email
-        const category = 'Rideshare'
-        const { rideshareStartingLocation, rideshareDestination, rideshareTime, requestedAt, isOpen } = this.state
-        db.collection('RequestsList').add({
-            rideshareStartingLocation,
-            rideshareDestination,
-            rideshareTime,
-            requestedAt,
-            id,
-            isOpen,
-            requestingUser,
-            category
-        }).catch((error) => {
-            //error callback
-            console.log('error ', error)
-        })
-        this.props.navigation.replace('Main')
+        Geocoder.init("AIzaSyBAzY7hX1PYVw5eU-k24mR7FeK_Uc9P0Sk")
+        Geocoder.from(this.state.rideshareStartingLocation)
+            .then(json => {
+                var loc = json.results[0].geometry.location;
+                const startLatitude = String(loc.lat)
+                const startLongitude = String(loc.lng)
+                this.setState({ startLatitude })
+                this.setState({ startLongitude })
+                Geocoder.from(this.state.rideshareDestination)
+                    .then(json => {
+                        var loc = json.results[0].geometry.location;
+                        const finishLatitude = String(loc.lat)
+                        const finishLongitude = String(loc.lng)
+                        this.setState({ finishLatitude })
+                        this.setState({ finishLongitude })
+                        const { town, rideshareStartingLocation, rideshareDestination, rideshareTime, requestedAt, isOpen } = this.state
+                        const id = uuid.v1().toString()
+                        const requestingUser = firebase.auth().currentUser.email
+                        const category = 'Rideshare'
+                        db.collection('RequestsList').add({
+                            town,
+                            rideshareStartingLocation,
+                            rideshareDestination,
+                            rideshareTime,
+                            requestedAt,
+                            id,
+                            isOpen,
+                            requestingUser,
+                            category
+                        }).catch((error) => {
+                            //error callback
+                            console.log('error ', error)
+                        })
+                        this.props.navigation.replace('Main')
+                    })
+            })
     }
 
     render() {
         return (
             <View style={Styles.requestMainContainer}>
                 <Text style={Styles.requestMainHeading}>New rideshare request</Text>
-                <Text style={Styles.requestSubHeading}>Please fill out the fields below, and please put the time you need the rideshare at in 24hr format.</Text>
+                <Text style={Styles.requestSubHeading}>Please fill out the full address of each location (including postcodes) and the time you need the rideshare (in 24hr format).</Text>
                 <TextInput
                     style={Styles.requestText}
                     placeholder="Starting Location"
