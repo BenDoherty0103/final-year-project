@@ -21,18 +21,20 @@ export default class RequestDetails extends React.Component {
         this.setState({ items })
       })
       this.state.items.map((item) => {
-        if (item.id == this.props.navigation.state.params) {
-          Geocoder.from(item.rideshareStartingLocation)
-            .then(json => {
-              var startingLoc = json.results[0].address_components[1].long_name
-              this.setState({ startingLoc })
-            })
-          Geocoder.from(item.rideshareDestination)
-            .then(json => {
-              var finishLoc = json.results[0].address_components[1].long_name
-              this.setState({ finishLoc })
-            })
-            .catch(error => console.warn(error))
+        if (item.category == 'Rideshare') {
+          if (item.id == this.props.navigation.state.params) {
+            Geocoder.from(item.rideshareStartingLocation)
+              .then(json => {
+                var startingLoc = json.results[0].address_components[1].long_name
+                this.setState({ startingLoc })
+              })
+            Geocoder.from(item.rideshareDestination)
+              .then(json => {
+                var finishLoc = json.results[0].address_components[1].long_name
+                this.setState({ finishLoc })
+              })
+              .catch(error => console.warn(error))
+          }
         }
       })
     })
@@ -78,7 +80,6 @@ export default class RequestDetails extends React.Component {
         <View style={Styles.requestsList}>
           {this.state.items.map((item) => {
             if (item.id == this.props.navigation.state.params) {
-              const id = item.id
               return (
                 <View>
                   {item.category == 'Rideshare' &&
@@ -137,7 +138,7 @@ export default class RequestDetails extends React.Component {
                       <Button
                         color="#e93766"
                         title='View responses'
-                        onPress={() => this.props.navigation.navigate('Responses', id)} />
+                        onPress={() => this.props.navigation.navigate('Responses', item.id)} />
                     </View>
                   }
                   {item.requestingUser == firebase.auth().currentUser.email &&
@@ -145,7 +146,7 @@ export default class RequestDetails extends React.Component {
                       <Button
                         color="#e93766"
                         title='Edit'
-                        onPress={() => this.props.navigation.navigate('Edit', [id, item.requestingUser, respondingUser])} />
+                        onPress={() => this.props.navigation.navigate('Edit', [item.id, item.requestingUser, respondingUser])} />
                     </View>
                   }
                   {item.requestingUser != firebase.auth().currentUser.email &&
@@ -153,7 +154,7 @@ export default class RequestDetails extends React.Component {
                       <Button
                         color="#e93766"
                         title='Respond'
-                        onPress={() => this.props.navigation.navigate('Response', [id, item.requestingUser, respondingUser])} />
+                        onPress={() => this.props.navigation.navigate('Response', [item.id, item.requestingUser, respondingUser])} />
                     </View>
                   }
                 </View>

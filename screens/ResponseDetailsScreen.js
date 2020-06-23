@@ -66,7 +66,8 @@ export default class RequestDetails extends React.Component {
         getDirections(data)
     }
 
-    handleOnPress = (props) => {
+    handleOnPress = (responder) => {
+        console.log(responder)
         items = []
         ids = []
         match = []
@@ -89,6 +90,9 @@ export default class RequestDetails extends React.Component {
                             })
                         }
                     })
+                    if (item.category == 'Commodity' || item.category == 'Experience') {
+                        this.handleGetDirections()
+                    }
                 }
             })
             var i = 0;
@@ -100,10 +104,25 @@ export default class RequestDetails extends React.Component {
                 }
             }
             db.collection("RequestsList").doc(String(this.state.matchID)).update({
-                isOpen: false
+                isOpen: false,
+                acceptedResponder: responder
             })
+            this.props.navigation.navigate('Main')
+        })
+    }
+
+    handleRouteToRequestor(requestorLocation) {
+        console.log(requestorLocation)
+        Geocoder.from(requestorLocation)
+        .then(json => {
+            var location = json.results[0].geometry.location;
+            this.setState( {resLat: location.lat} )
+            this.setState( {resLong: location.lng} )
             this.handleGetDirections()
         })
+        .catch(error => console.warn(error));
+        
+
     }
 
 
@@ -120,18 +139,30 @@ export default class RequestDetails extends React.Component {
                                         return (
                                             <View>
                                                 <View style={Styles.listItem}>
-                                                    <TouchableOpacity>
-                                                        <Text style={Styles.requestsText}>Responding user: {responses.respondingUser}</Text>
-                                                        <Text style={Styles.requestsText}>Their offer: {responses.responsebody}</Text>
-                                                        <Text style={Styles.requestsText}>Responded at: {responses.respondedAt}</Text>
-                                                    </TouchableOpacity>
+                                                    <Text style={Styles.requestsText}>Responding user: {responses.respondingUser}</Text>
+                                                    <Text style={Styles.requestsText}>Offer: {responses.responsebody}</Text>
+                                                    <Text style={Styles.requestsText}>Responded at: {responses.respondedAt}</Text>
                                                 </View>
+                                                {item.requestingUser != firebase.auth().currentUser.email && item.acceptedResponder == firebase.auth().currentUser.email == true &&
+                                                    <View>
+                                                        <Text style={Styles.requestsText}>Response Status: Accepted</Text>
+                                                        <View style={Styles.requestSubmit}>
+                                                        <Button
+                                                            color="#e93766"
+                                                            title='Route to requestor'
+                                                            onPress={() => this.handleRouteToRequestor(item.rideshareStartingLocation)} />
+                                                    </View>
+                                                    </View>
+                                                }
+                                                {item.requestingUser != firebase.auth().currentUser.email && item.acceptedResponder == firebase.auth().currentUser.email == false &&
+                                                    <Text style={Styles.requestsText}>Response Accepted: Not accepted</Text>
+                                                }
                                                 {item.requestingUser == firebase.auth().currentUser.email &&
                                                     <View style={Styles.requestSubmit}>
                                                         <Button
                                                             color="#e93766"
                                                             title='Accept Response'
-                                                            onPress={this.handleOnPress} />
+                                                            onPress={() => this.handleOnPress(responses.respondingUserEmail)} />
                                                     </View>
                                                 }
                                             </View>

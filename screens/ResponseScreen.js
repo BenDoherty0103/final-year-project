@@ -40,6 +40,7 @@ export default class Response extends React.Component {
     }
 
     handleOnPress = (props) => {
+        const responderEmail = firebase.auth().currentUser.email
         const ResponseID = uuid.v1().toString()
         items = []
         ids = []
@@ -48,6 +49,7 @@ export default class Response extends React.Component {
         this.state.users.map((user) => {
             if (firebase.auth().currentUser.email == user.email) {
                 this.setState({ userResponding: user.fullName })
+                this.setState({ userRespondingID: user.userID })
             }
         })
         db.collection("RequestsList").get().then((querySnapshot) => {
@@ -66,6 +68,7 @@ export default class Response extends React.Component {
                                 {
                                     responseID: ResponseID,
                                     respondingUser: this.state.userResponding,
+                                    respondingUserEmail: responderEmail,
                                     responsebody: RequestResponse,
                                     respondedAt: this.state.respondedAt
                                 }

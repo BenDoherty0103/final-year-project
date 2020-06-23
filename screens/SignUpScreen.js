@@ -4,6 +4,7 @@ import Geocoder from 'react-native-geocoding'
 import Styles from '../assets/Styles'
 import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
+import uuid from 'react-native-uuid'
 
 
 export default class SignUp extends React.Component {
@@ -16,6 +17,7 @@ export default class SignUp extends React.Component {
     Geocoder.init("AIzaSyBAzY7hX1PYVw5eU-k24mR7FeK_Uc9P0Sk")
     const { fullName, email, password, address, town, postcode } = this.state
     const location = String(address + ' ' + town + ' ' + postcode)
+    const userID = uuid.v1().toString()
     Geocoder.from(location)
       .then(json => {
         var loc = json.results[0].geometry.location;
@@ -26,6 +28,7 @@ export default class SignUp extends React.Component {
           .createUserWithEmailAndPassword(email, password)
           .then(() => {
             db.collection('Users').add({
+              userID,
               fullName,
               email,
               password,

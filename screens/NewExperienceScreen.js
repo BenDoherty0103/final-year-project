@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, View, TextInput, Button } from 'react-native'
-import Geocoder from 'react-native-geocoding'
 import Styles from '../assets/Styles'
 import { db } from './../configs/firebaseConfig'
 import * as firebase from 'firebase'
@@ -21,7 +20,6 @@ export default class NewExperience extends React.Component {
       requestedAt:
         date + '/' + month + '/' + year + ' ' + hours + ':' + min,
     });
-    Geocoder.init("AIzaSyBAzY7hX1PYVw5eU-k24mR7FeK_Uc9P0Sk")
     this.handleGeoLocation()
   }
 

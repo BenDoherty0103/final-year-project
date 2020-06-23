@@ -46,6 +46,17 @@ export default class YourProfile extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
+        <View style={Styles.mainContainer}>
+          <View style={Styles.rowContainer}>
+            <TouchableOpacity
+              style={Styles.innerContainer}
+              onPress={() => this.props.navigation.navigate('YourResponses')} >
+              <MenuItem
+                title='View your responses'
+                image={require('./../assets/images/person.jpg')} />
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
     )
   }
