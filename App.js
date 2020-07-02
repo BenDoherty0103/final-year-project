@@ -6,6 +6,7 @@ import LoginScreen from './screens/LoginScreen'
 import MainScreen from './screens/MainScreen'
 import YourRequestsScreen from './screens/YourRequestsScreen';
 import CommunityScreen from './screens/CommunityScreen';
+import CommunityDetailsScreen from './screens/CommunityDetailsScreen';
 import HelpScreen from './screens/HelpScreen';
 import MakeNewRequestScreen from './screens/MakeNewRequestScreen';
 import NewCommodityScreen from './screens/NewCommodityScreen';
@@ -39,6 +40,7 @@ const App = createStackNavigator(
     Main: MainScreen,
     YourRequests: YourRequestsScreen,
     Community: CommunityScreen,
+    CommunityDetails: CommunityDetailsScreen,
     Help: HelpScreen,
     MakeNewRequest: MakeNewRequestScreen,
     NewCommodity: NewCommodityScreen,

@@ -39,7 +39,7 @@ export default class NewRideshare extends React.Component {
                 const users = querySnapshot.docs.map(doc => doc.data());
                 users.map((user) => {
                     if (user.email == firebase.auth().currentUser.email) {
-                        this.setState({ town: user.town })
+                        this.setState({ community: user.town })
                     }
                 })
                 this.setState({ users })
@@ -63,12 +63,12 @@ export default class NewRideshare extends React.Component {
                         const finishLongitude = String(loc.lng)
                         this.setState({ finishLatitude })
                         this.setState({ finishLongitude })
-                        const { town, rideshareStartingLocation, rideshareDestination, rideshareTime, requestedAt, isOpen } = this.state
+                        const { community, rideshareStartingLocation, rideshareDestination, rideshareTime, requestedAt, isOpen } = this.state
                         const id = uuid.v1().toString()
                         const requestingUser = firebase.auth().currentUser.email
                         const category = 'Rideshare'
                         db.collection('RequestsList').add({
-                            town,
+                            community,
                             rideshareStartingLocation,
                             rideshareDestination,
                             rideshareTime,
