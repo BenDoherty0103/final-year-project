@@ -7,7 +7,7 @@ import uuid from 'react-native-uuid'
 
 export default class NewExperience extends React.Component {
 
-  state = { itemName: '', itemDescription: '', itemLocation: '', requestedBy: '', requestedAt: '', category: '', id: '', isOpen: true }
+  state = { itemName: '', itemDescription: '', requestedBy: '', requestedAt: '', category: '', id: '', isOpen: true }
 
   componentDidMount() {
     var date = new Date().getDate(); //Current Date
@@ -29,7 +29,7 @@ export default class NewExperience extends React.Component {
         const users = querySnapshot.docs.map(doc => doc.data());
         users.map((user) => {
           if (user.email == firebase.auth().currentUser.email) {
-            this.setState({ itemLocation: user.town })
+            this.setState({ community: user.town })
           }
         })
         this.setState({ users })
@@ -41,11 +41,11 @@ export default class NewExperience extends React.Component {
     const id = uuid.v1().toString()
     const requestingUser = firebase.auth().currentUser.email
     const category = 'Experience'
-    const { itemName, itemDescription, itemLocation, requestedAt, isOpen } = this.state
+    const { community, itemName, itemDescription, requestedAt, isOpen } = this.state
     db.collection('RequestsList').add({
+      community,
       itemName,
       itemDescription,
-      itemLocation,
       requestedAt,
       id,
       isOpen,

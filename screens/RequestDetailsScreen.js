@@ -107,7 +107,7 @@ export default class RequestDetails extends React.Component {
                     <View style={Styles.listItem}>
                       <Text style={Styles.requestsText}>Item Name: {item.itemName}</Text>
                       <Text style={Styles.requestsText}>Item Description: {item.itemDescription}</Text>
-                      <Text style={Styles.requestsText}>Item Location: {item.itemLocation}</Text>
+                      <Text style={Styles.requestsText}>Item Location: {item.community}</Text>
                       <Text style={Styles.requestsText}>Category: {item.category}</Text>
                       <Text style={Styles.requestsText}>Requested At: {item.requestedAt}</Text>
                       {item.isOpen == true &&
@@ -122,7 +122,7 @@ export default class RequestDetails extends React.Component {
                     <View style={Styles.listItem}>
                       <Text style={Styles.requestsText}>Item Name: {item.itemName}</Text>
                       <Text style={Styles.requestsText}>Item Description: {item.itemDescription}</Text>
-                      <Text style={Styles.requestsText}>Item Location: {item.itemLocation}</Text>
+                      <Text style={Styles.requestsText}>Item Location: {item.community}</Text>
                       <Text style={Styles.requestsText}>Category: {item.category}</Text>
                       <Text style={Styles.requestsText}>Requested At: {item.requestedAt}</Text>
                       {item.isOpen == true &&

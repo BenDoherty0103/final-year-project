@@ -1,7 +1,6 @@
 import React from 'react'
 import { Text, View, ScrollView } from 'react-native'
 import Styles from '../assets/Styles'
-import { TouchableHighlight } from 'react-native-gesture-handler'
 
 
 export default class Help extends React.Component {
