@@ -10,8 +10,10 @@ export default class EditRequest extends React.Component {
     state = {
         items: [],
         itemName: '',
-        itemLocation: '',
-        itemDescription: ''
+        itemDescription: '',
+        rideshareStartingLocation: '',
+        rideshareDestination: '',
+        rideshareTime: '',
     }
 
     componentDidMount() {
@@ -28,8 +30,10 @@ export default class EditRequest extends React.Component {
         ids = []
         match = []
         const ItemName = this.state.itemName
-        const ItemLocation = this.state.itemLocation
         const ItemDescription = this.state.itemDescription
+        const RideshareStartingLocation = this.state.rideshareStartingLocation
+        const RideshareDestination = this.state.rideshareDestination
+        const RideshareTime = this.state.rideshareTime
         db.collection("RequestsList").get().then((querySnapshot) => {
             querySnapshot.forEach(doc => {
                 items.push(doc.data())
@@ -49,15 +53,23 @@ export default class EditRequest extends React.Component {
                     this.setState({ matchID })
                 }
             }
-            if (ItemName != '' && ItemLocation != '' && ItemDescription != '') {
+            if (ItemName != '' && ItemDescription != '') {
                 db.collection("RequestsList").doc(String(this.state.matchID)).update({
                     itemName: ItemName,
                     itemDescription: ItemDescription
                 })
             }
+            else if (RideshareStartingLocation != '' && RideshareDestination != '' && RideshareTime != '') {
+                db.collection("RequestsList").doc(String(this.state.matchID)).update({
+                    rideshareStartingLocation: RideshareStartingLocation,
+                    rideshareDestination: RideshareDestination,
+                    rideshareTime: RideshareTime,
+                })
+            }
             else {
                 Alert.alert('Error', 'Please enter a value!')
             }
+            this.props.navigation.navigate('Main')
         })
     }
 
@@ -65,19 +77,20 @@ export default class EditRequest extends React.Component {
         return (
             <View style={Styles.requestMainContainer}>
                 <Text style={Styles.requestMainHeading}>Your Request</Text>
-                <View style={Styles.itemsList}>
-                    {this.state.items.map((item) => {
-                        if (item.id == this.props.navigation.state.params[0]) {
+                <Text style={Styles.requestSubHeading}>Please fill out the fields below, and try to be as descriptive as possible.</Text>
+                {this.state.items.map((item) => {
+                    if (item.id == this.props.navigation.state.params[0]) {
+                        if (item.category == 'Commodity' || item.category == 'Experience') {
                             return (
-                                <View style={Styles.listItem}>
+                                <View style={Styles.innerContainer}>
                                     <TextInput
-                                        style={Styles.requestText}
-                                        placeholder='Item name'
+                                        style={Styles.requestTextInput}
+                                        placeholder={String('Item name: ' + item.itemName)}
                                         onChangeText={itemName => this.setState({ itemName })}
                                         value={this.state.itemName} />
                                     <TextInput
-                                        style={Styles.requestText}
-                                        placeholder='Item Description'
+                                        style={Styles.requestTextInput}
+                                        placeholder={String('Item Description: ' + item.itemDescription)}
                                         onChangeText={itemDescription => this.setState({ itemDescription })}
                                         value={this.state.itemDescription} />
                                     <View style={Styles.requestSubmit}>
@@ -86,8 +99,32 @@ export default class EditRequest extends React.Component {
                                 </View>
                             )
                         }
-                    })}
-                </View>
+                        else if (item.category == 'Rideshare') {
+                            return (
+                                <View style={Styles.innerContainer}>
+                                    <TextInput
+                                        style={Styles.requestText}
+                                        placeholder={String('Starting Location: ' + item.rideshareStartingLocation)}
+                                        onChangeText={rideshareStartingLocation => this.setState({ rideshareStartingLocation })}
+                                        value={this.state.rideshareStartingLocation} />
+                                    <TextInput
+                                        style={Styles.requestText}
+                                        placeholder={String('Destination: ' + item.rideshareDestination)}
+                                        onChangeText={rideshareDestination => this.setState({ rideshareDestination })}
+                                        value={this.state.rideshareDestination} />
+                                    <TextInput
+                                        style={Styles.requestText}
+                                        placeholder={String('Needed at (DD/MM/YY HH:MM): ' + item.rideshareTime)}
+                                        onChangeText={rideshareTime => this.setState({ rideshareTime })}
+                                        value={this.state.rideshareTime} />
+                                    <View style={Styles.requestSubmit}>
+                                        <Button title='Submit Changes' color="#e93766" onPress={this.handleOnPress}></Button>
+                                    </View>
+                                </View>
+                            )
+                        }
+                    }
+                })}
             </View>
         )
     }
