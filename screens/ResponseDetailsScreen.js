@@ -10,7 +10,8 @@ import Geocoder from 'react-native-geocoding'
 export default class RequestDetails extends React.Component {
 
     state = {
-        items: []
+        items: [],
+        users: []
     }
 
     componentDidMount(props) {
@@ -61,13 +62,21 @@ export default class RequestDetails extends React.Component {
                 longitude: resLng
             }
         }
-        console.log(data.source)
-        console.log(data.destination)
         getDirections(data)
     }
 
     handleOnPress = (responder) => {
-        console.log(responder)
+        db.collection("Users").get().then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const users = querySnapshot.docs.map(doc => doc.data());
+                this.setState({ users })
+            })
+            this.state.users.map((user) => {
+                if (user.email == responder) {
+                    this.setState({ responderLocation: user.location })
+                }
+            })
+        })
         items = []
         ids = []
         match = []
@@ -112,16 +121,15 @@ export default class RequestDetails extends React.Component {
     }
 
     handleRouteToRequestor(requestorLocation) {
-        console.log(requestorLocation)
         Geocoder.from(requestorLocation)
-        .then(json => {
-            var location = json.results[0].geometry.location;
-            this.setState( {resLat: location.lat} )
-            this.setState( {resLong: location.lng} )
-            this.handleGetDirections()
-        })
-        .catch(error => console.warn(error));
-        
+            .then(json => {
+                var location = json.results[0].geometry.location;
+                this.setState({ resLat: location.lat })
+                this.setState({ resLong: location.lng })
+                this.handleGetDirections()
+            })
+            .catch(error => console.warn(error));
+
 
     }
 
@@ -146,16 +154,20 @@ export default class RequestDetails extends React.Component {
                                                 {item.requestingUser != firebase.auth().currentUser.email && item.acceptedResponder == firebase.auth().currentUser.email == true &&
                                                     <View>
                                                         <Text style={Styles.requestsText}>Response Status: Accepted</Text>
-                                                        <View style={Styles.requestSubmit}>
-                                                        <Button
-                                                            color="#e93766"
-                                                            title='Route to requestor'
-                                                            onPress={() => this.handleRouteToRequestor(item.rideshareStartingLocation)} />
-                                                    </View>
                                                     </View>
                                                 }
                                                 {item.requestingUser != firebase.auth().currentUser.email && item.acceptedResponder == firebase.auth().currentUser.email == false &&
-                                                    <Text style={Styles.requestsText}>Response Accepted: Not accepted</Text>
+                                                    <Text style={Styles.requestsText}>Response Status: Not accepted</Text>
+                                                }
+                                                {item.requestingUser != firebase.auth().currentUser.email && item.acceptedResponder == firebase.auth().currentUser.email == true && item.category == 'Rideshare' &&
+                                                    <View>
+                                                        <View style={Styles.requestSubmit}>
+                                                            <Button
+                                                                color="#e93766"
+                                                                title='Route to requestor'
+                                                                onPress={() => this.handleRouteToRequestor(item.rideshareStartingLocation)} />
+                                                        </View>
+                                                    </View>
                                                 }
                                                 {item.requestingUser == firebase.auth().currentUser.email &&
                                                     <View style={Styles.requestSubmit}>

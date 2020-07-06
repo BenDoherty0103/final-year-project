@@ -64,6 +64,14 @@ export default StyleSheet.create({
     height: 75,
     justifyContent: "flex-start"
   },
+  requestTextInput: {
+      borderColor: 'grey',
+      borderWidth: 1,
+      textAlign: 'center',
+      fontSize: 16,
+      height: 75,
+      paddingVertical: 10
+  },
   requestSubmit: {
     padding: 10
   },
@@ -77,7 +85,6 @@ export default StyleSheet.create({
   },
   listItem: {
     paddingVertical: 5,
-    width: '90%',
     alignSelf: 'center'
   },
   requestsText: {
