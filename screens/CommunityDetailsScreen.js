@@ -72,6 +72,9 @@ export default class RequestDetails extends React.Component {
           })
           this.props.navigation.replace('Main')
         }
+        else {
+          this.setState({ errorMessage: 'Failed to join community' })
+        }
       })
     })
   }
@@ -81,6 +84,11 @@ export default class RequestDetails extends React.Component {
     return (
       <View>
         <Text style={Styles.requestMainHeading}>Community Details</Text>
+        {this.state.errorMessage &&
+          <Text style={{ color: 'red' }}>
+            {this.state.errorMessage}
+          </Text>
+        }
         <View style={Styles.requestsList}>
           {this.state.communities.map((community) => {
             if (community == this.props.navigation.state.params) {

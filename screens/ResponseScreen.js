@@ -85,7 +85,8 @@ export default class Response extends React.Component {
                                         }
                                     )
                                 })
-                                this.props.navigation.replace('Main')
+                                .then(() => this.props.navigation.navigate('Main'))
+                                .catch(error => this.setState({ errorMessage: error.message }))
                             }
                             else {
                                 Alert.alert('Error', 'Please enter a value!')
@@ -94,7 +95,7 @@ export default class Response extends React.Component {
                     })
                 })
             })
-            .catch(error => console.warn(error));
+            .catch(error => this.setState({ errorMessage: error.message }))
     }
 
     render(props) {
@@ -110,6 +111,11 @@ export default class Response extends React.Component {
                                         Please enter your response to this request.
                                         The requesting user will accept or reject your response.
                                     </Text>
+                                    {this.state.errorMessage &&
+                                        <Text style={{ color: 'red' }}>
+                                            {this.state.errorMessage}
+                                        </Text>
+                                    }
                                     <View style={Styles.responseTextAreaContainer} >
                                         <TextInput
                                             style={Styles.responseTextArea}

@@ -31,9 +31,6 @@ export default class YourDetails extends React.Component {
               })
               .catch(error => console.warn(error));
           }
-          else {
-            console.log('No data')
-          }
         })
         this.setState({ users })
       });
@@ -84,7 +81,8 @@ export default class YourDetails extends React.Component {
                   longitude: lng,
                   town: newTown
                 })
-                this.props.navigation.replace('Main')
+                .then(() => this.props.navigation.replace('Main'))
+                .catch(error => this.setState({ errorMessage: error.message }))
               }
               else {
                 Alert.alert('Error', 'Please enter a value!')
@@ -93,7 +91,7 @@ export default class YourDetails extends React.Component {
           })
         })
       })
-      .catch(error => console.warn(error));
+      .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   render() {
@@ -101,6 +99,11 @@ export default class YourDetails extends React.Component {
       <View style={Styles.requestMainContainer}>
         <Text style={Styles.requestMainHeading}>Your Profile</Text>
         <Text style={Styles.requestSubHeading}>If you need to change any of your details, simply enter the new value in the box and press the submit button.</Text>
+        {this.state.errorMessage &&
+          <Text style={{ color: 'red' }}>
+            {this.state.errorMessage}
+          </Text>
+        }
         <View style={Styles.requestsList}>
           {this.state.users.map((user) => {
             if (user.email == firebase.auth().currentUser.email) {

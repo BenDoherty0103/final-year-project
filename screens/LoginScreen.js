@@ -25,7 +25,8 @@ export default class Login extends React.Component {
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>
             {this.state.errorMessage}
-          </Text>}
+          </Text>
+        }
         <TextInput style={Styles.requestText}
           autoCapitalize="none"
           placeholder="Email"
@@ -41,7 +42,7 @@ export default class Login extends React.Component {
           value={this.state.password}
         />
         <Button title="Login" color="#e93766" onPress={this.handleLogin} />
-        <Text style={Styles.requestSubHeading}> Don't have an account? <Text onPress={() => this.props.navigation.navigate('SignUp')} style={{color:'#e93766', fontSize: 18}}> Sign up </Text></Text>
+        <Text style={Styles.requestSubHeading}> Don't have an account? <Text onPress={() => this.props.navigation.navigate('SignUp')} style={{ color: '#e93766', fontSize: 18 }}> Sign up </Text></Text>
       </View>
     )
   }

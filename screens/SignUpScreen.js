@@ -5,6 +5,7 @@ import Styles from '../assets/Styles'
 import * as firebase from 'firebase'
 import { db } from './../configs/firebaseConfig'
 import uuid from 'react-native-uuid'
+import { postcodeValidator, postcodeValidatorExists } from 'postcode-validator';
 
 
 export default class SignUp extends React.Component {
@@ -18,32 +19,38 @@ export default class SignUp extends React.Component {
     const { fullName, email, password, address, town, postcode } = this.state
     const location = String(address + ' ' + town + ' ' + postcode)
     const userID = uuid.v1().toString()
-    Geocoder.from(location)
-      .then(json => {
-        var loc = json.results[0].geometry.location;
-        const latitude = String(loc.lat)
-        const longitude = String(loc.lng)
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(email, password)
-          .then(() => {
-            db.collection('Users').add({
-              userID,
-              fullName,
-              email,
-              password,
-              location,
-              town,
-              latitude,
-              longitude
-            }).catch((error) => {
-              //error callback
-              console.log('error ', error)
+    if (postcodeValidator(postcode, 'UK') == true) {
+      Geocoder.from(location)
+        .then(json => {
+          var loc = json.results[0].geometry.location;
+          const latitude = String(loc.lat)
+          const longitude = String(loc.lng)
+          firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+              db.collection('Users').add({
+                userID,
+                fullName,
+                email,
+                password,
+                location,
+                town,
+                latitude,
+                longitude
+              }).catch((error) => {
+                //error callback
+                console.log('error ', error)
+              })
             })
-          })
-          .then(() => this.props.navigation.navigate('Main'))
-          .catch(error => this.setState({ errorMessage: error.message }))
-      })
+            .then(() => this.props.navigation.navigate('Main'))
+            .catch(error => this.setState({ errorMessage: error.message }))
+        })
+        .catch(error => this.setState({ errorMessage: error.message }))
+    }
+    else {
+      this.setState({ errorMessage: 'Invalid address/postcode.' })
+    }
   }
 
   render() {

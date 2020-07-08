@@ -34,7 +34,7 @@ export default class NewExperience extends React.Component {
         })
         this.setState({ users })
       })
-    }).catch(error => console.warn(error));
+    }).catch(error => this.setState({ errorMessage: error.message }))
   }
 
   handleItems = () => {
@@ -51,11 +51,9 @@ export default class NewExperience extends React.Component {
       isOpen,
       requestingUser,
       category
-    }).catch((error) => {
-      //error callback
-      console.log('error ', error)
     })
-    this.props.navigation.replace('Main')
+    .then(() => this.props.navigation.replace('Main'))
+    .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   render() {
@@ -63,6 +61,11 @@ export default class NewExperience extends React.Component {
       <View style={Styles.requestMainContainer}>
         <Text style={Styles.requestMainHeading}>New experience request</Text>
         <Text style={Styles.requestSubHeading}>Please fill out the fields below, and try to be as descriptive as possible.</Text>
+        {this.state.errorMessage &&
+          <Text style={{ color: 'red' }}>
+            {this.state.errorMessage}
+          </Text>
+        }
         <TextInput
           style={Styles.requestText}
           placeholder="Title"
