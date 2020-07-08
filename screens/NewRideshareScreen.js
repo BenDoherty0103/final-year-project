@@ -44,7 +44,7 @@ export default class NewRideshare extends React.Component {
                 })
                 this.setState({ users })
             })
-        }).catch(error => console.warn(error));
+        }).catch(error => this.setState({ errorMessage: error.message }))
     }
 
     handleItems = () => {
@@ -77,11 +77,9 @@ export default class NewRideshare extends React.Component {
                             isOpen,
                             requestingUser,
                             category
-                        }).catch((error) => {
-                            //error callback
-                            console.log('error ', error)
                         })
-                        this.props.navigation.replace('Main')
+                        .then(() => this.props.navigation.replace('Main'))
+                        .catch(error => this.setState({ errorMessage: error.message }))
                     })
             })
     }
@@ -91,6 +89,11 @@ export default class NewRideshare extends React.Component {
             <View style={Styles.requestMainContainer}>
                 <Text style={Styles.requestMainHeading}>New rideshare request</Text>
                 <Text style={Styles.requestSubHeading}>Please fill out the full address of each location (including postcodes) and the time you need the rideshare (in 24hr format).</Text>
+                {this.state.errorMessage &&
+                    <Text style={{ color: 'red' }}>
+                        {this.state.errorMessage}
+                    </Text>
+                }
                 <TextInput
                     style={Styles.requestText}
                     placeholder="Starting Location"
