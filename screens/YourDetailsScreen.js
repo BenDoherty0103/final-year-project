@@ -91,7 +91,7 @@ export default class YourDetails extends React.Component {
           })
         })
       })
-      .catch(error => this.setState({ errorMessage: error.message }))
+      .catch(error => this.setState({ errorMessage: 'Please enter a value!' }))
   }
 
   render() {

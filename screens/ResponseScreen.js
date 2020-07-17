@@ -89,7 +89,7 @@ export default class Response extends React.Component {
                                 .catch(error => this.setState({ errorMessage: error.message }))
                             }
                             else {
-                                Alert.alert('Error', 'Please enter a value!')
+                                this.setState({ errorMessage: 'Please enter a value!' })
                             }
                         }
                     })

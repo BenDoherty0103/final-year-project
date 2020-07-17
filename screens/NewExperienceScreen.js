@@ -42,18 +42,23 @@ export default class NewExperience extends React.Component {
     const requestingUser = firebase.auth().currentUser.email
     const category = 'Experience'
     const { community, itemName, itemDescription, requestedAt, isOpen } = this.state
-    db.collection('RequestsList').add({
-      community,
-      itemName,
-      itemDescription,
-      requestedAt,
-      id,
-      isOpen,
-      requestingUser,
-      category
-    })
-    .then(() => this.props.navigation.replace('Main'))
-    .catch(error => this.setState({ errorMessage: error.message }))
+    if (itemName != '' && itemDescription != '') {
+      db.collection('RequestsList').add({
+        community,
+        itemName,
+        itemDescription,
+        requestedAt,
+        id,
+        isOpen,
+        requestingUser,
+        category
+      })
+        .then(() => this.props.navigation.replace('Main'))
+        .catch(error => this.setState({ errorMessage: error.message }))
+    }
+    else {
+      this.setState({ errorMessage: 'Please enter a value!' })
+    }
   }
 
   render() {

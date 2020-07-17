@@ -42,18 +42,23 @@ export default class NewCommodity extends React.Component {
     const requestingUser = firebase.auth().currentUser.email
     const category = 'Commodity'
     const { itemName, itemDescription, community, requestedAt, isOpen } = this.state
-    db.collection('RequestsList').add({
-      itemName,
-      itemDescription,
-      community,
-      requestedAt,
-      id,
-      isOpen,
-      requestingUser,
-      category
-    })
-    .then(() => this.props.navigation.replace('Main'))
-    .catch(error => this.setState({ errorMessage: error.message }))
+    if (itemName != '' && itemDescription != '') {
+      db.collection('RequestsList').add({
+        itemName,
+        itemDescription,
+        community,
+        requestedAt,
+        id,
+        isOpen,
+        requestingUser,
+        category
+      })
+        .then(() => this.props.navigation.replace('Main'))
+        .catch(error => this.setState({ errorMessage: error.message }))
+    }
+    else {
+      this.setState({ errorMessage: 'Please enter a value!' })
+    }
   }
 
   render() {
