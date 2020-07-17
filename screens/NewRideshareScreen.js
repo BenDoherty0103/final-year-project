@@ -49,39 +49,44 @@ export default class NewRideshare extends React.Component {
 
     handleItems = () => {
         Geocoder.init("AIzaSyBAzY7hX1PYVw5eU-k24mR7FeK_Uc9P0Sk")
-        Geocoder.from(this.state.rideshareStartingLocation)
-            .then(json => {
-                var loc = json.results[0].geometry.location;
-                const startLatitude = String(loc.lat)
-                const startLongitude = String(loc.lng)
-                this.setState({ startLatitude })
-                this.setState({ startLongitude })
-                Geocoder.from(this.state.rideshareDestination)
-                    .then(json => {
-                        var loc = json.results[0].geometry.location;
-                        const finishLatitude = String(loc.lat)
-                        const finishLongitude = String(loc.lng)
-                        this.setState({ finishLatitude })
-                        this.setState({ finishLongitude })
-                        const { community, rideshareStartingLocation, rideshareDestination, rideshareTime, requestedAt, isOpen } = this.state
-                        const id = uuid.v1().toString()
-                        const requestingUser = firebase.auth().currentUser.email
-                        const category = 'Rideshare'
-                        db.collection('RequestsList').add({
-                            community,
-                            rideshareStartingLocation,
-                            rideshareDestination,
-                            rideshareTime,
-                            requestedAt,
-                            id,
-                            isOpen,
-                            requestingUser,
-                            category
+        if (this.state.rideshareStartingLocation != '' && this.state.rideshareDestination != '' && this.state.rideshareTime != '') {
+            Geocoder.from(this.state.rideshareStartingLocation)
+                .then(json => {
+                    var loc = json.results[0].geometry.location;
+                    const startLatitude = String(loc.lat)
+                    const startLongitude = String(loc.lng)
+                    this.setState({ startLatitude })
+                    this.setState({ startLongitude })
+                    Geocoder.from(this.state.rideshareDestination)
+                        .then(json => {
+                            var loc = json.results[0].geometry.location;
+                            const finishLatitude = String(loc.lat)
+                            const finishLongitude = String(loc.lng)
+                            this.setState({ finishLatitude })
+                            this.setState({ finishLongitude })
+                            const { community, rideshareStartingLocation, rideshareDestination, rideshareTime, requestedAt, isOpen } = this.state
+                            const id = uuid.v1().toString()
+                            const requestingUser = firebase.auth().currentUser.email
+                            const category = 'Rideshare'
+                            db.collection('RequestsList').add({
+                                community,
+                                rideshareStartingLocation,
+                                rideshareDestination,
+                                rideshareTime,
+                                requestedAt,
+                                id,
+                                isOpen,
+                                requestingUser,
+                                category
+                            })
+                                .then(() => this.props.navigation.replace('Main'))
+                                .catch(error => this.setState({ errorMessage: error.message }))
                         })
-                        .then(() => this.props.navigation.replace('Main'))
-                        .catch(error => this.setState({ errorMessage: error.message }))
-                    })
-            })
+                })
+        }
+        else {
+            this.setState({ errorMessage: 'Please enter a value!' })
+        }
     }
 
     render() {

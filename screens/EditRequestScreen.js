@@ -58,6 +58,7 @@ export default class EditRequest extends React.Component {
                     itemName: ItemName,
                     itemDescription: ItemDescription
                 })
+                this.props.navigation.navigate('Main')
             }
             else if (RideshareStartingLocation != '' && RideshareDestination != '' && RideshareTime != '') {
                 db.collection("RequestsList").doc(String(this.state.matchID)).update({
@@ -65,11 +66,11 @@ export default class EditRequest extends React.Component {
                     rideshareDestination: RideshareDestination,
                     rideshareTime: RideshareTime,
                 })
+                this.props.navigation.navigate('Main')
             }
             else {
-                Alert.alert('Error', 'Please enter a value!')
+                this.setState({ errorMessage: 'Please enter a value!' })
             }
-            this.props.navigation.navigate('Main')
         })
     }
 
@@ -78,6 +79,11 @@ export default class EditRequest extends React.Component {
             <View style={Styles.requestMainContainer}>
                 <Text style={Styles.requestMainHeading}>Your Request</Text>
                 <Text style={Styles.requestSubHeading}>Please fill out the fields below, and try to be as descriptive as possible.</Text>
+                {this.state.errorMessage &&
+                    <Text style={{ color: 'red' }}>
+                        {this.state.errorMessage}
+                    </Text>
+                }
                 {this.state.items.map((item) => {
                     if (item.id == this.props.navigation.state.params[0]) {
                         if (item.category == 'Commodity' || item.category == 'Experience') {
