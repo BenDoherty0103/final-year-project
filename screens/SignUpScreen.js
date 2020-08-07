@@ -11,12 +11,12 @@ import { postcodeValidator, postcodeValidatorExists } from 'postcode-validator';
 export default class SignUp extends React.Component {
 
   //Setting initial state as blank, to be filled in from signup information
-  state = { fullName: '', email: '', password: '', errorMessage: null }
+  state = { fullName: '', email: '', errorMessage: null }
 
   //Method to create and store user, then navigate from login screen to main screen
   handleSignUp = () => {
     Geocoder.init("AIzaSyBAzY7hX1PYVw5eU-k24mR7FeK_Uc9P0Sk")
-    const { fullName, email, password, address, town, postcode } = this.state
+    const { fullName, email, address, town, postcode } = this.state
     const location = String(address + ' ' + town + ' ' + postcode)
     const userID = uuid.v1().toString()
     if (postcodeValidator(postcode, 'UK') == true) {
@@ -33,7 +33,6 @@ export default class SignUp extends React.Component {
                 userID,
                 fullName,
                 email,
-                password,
                 location,
                 town,
                 latitude,
